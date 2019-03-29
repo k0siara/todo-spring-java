@@ -18,21 +18,17 @@ public class LoginView extends VerticalLayout implements AfterNavigationObserver
         getElement().appendChild(
                 new MyCookieConsent().getElement(), login.getElement());
 
+        LoginOverlay component = new LoginOverlay();
+
         LoginI18n i18n = LoginI18n.createDefault();
         i18n.setHeader(new LoginI18n.Header());
-        i18n.getHeader().setTitle("dsa");
-        i18n.getHeader().setDescription(
-                "admin@vaadin.com + admin\n" + "barista@vaadin.com + barista");
+        i18n.getHeader().setTitle("Todo Application");
         i18n.setAdditionalInformation(null);
-        i18n.setForm(new LoginI18n.Form());
-        i18n.getForm().setSubmit("Sign in");
-        i18n.getForm().setTitle("Sign in");
-        i18n.getForm().setUsername("Email");
-        i18n.getForm().setPassword("Password");
-        login.setI18n(i18n);
-        login.getElement().setAttribute("no-forgot-password", true);
-        login.setAction("login");
-        login.setOpened(true);
+
+        component.setI18n(i18n);
+        component.setForgotPasswordButtonVisible(false);
+        component.setAction("login");
+        component.setOpened(true);
     }
 
     @Override

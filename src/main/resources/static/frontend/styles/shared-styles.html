@@ -15,7 +15,14 @@
             [part="navbar"] {
                 z-index: 200;
                 box-shadow: 0 0 16px 2px var(--lumo-shade-20pct);
+            }
 
+            [part="navbar"] > ::slotted([slot="menu"]) {
+                margin: 0 0 0 auto;
+            }
+
+            [part="branding"], [part="navbar"]::after {
+                flex: unset;
             }
 
             @media (max-height: 600px) {
