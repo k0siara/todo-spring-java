@@ -3,6 +3,7 @@ package com.patrykkosieradzki.todo.ui;
 import com.patrykkosieradzki.todo.ui.component.MyCookieConsent;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.Text;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AbstractAppRouterLayout;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.AppLayoutMenu;
@@ -43,7 +44,8 @@ public class MainView extends AbstractAppRouterLayout {
 
 
         addMenuItem(menu, new AppLayoutMenuItem("Login"));
-        addMenuItem(menu, new AppLayoutMenuItem("Sign up"));
+        addMenuItem(menu, new AppLayoutMenuItem("Logout", e ->
+                UI.getCurrent().getPage().executeJavaScript("location.assign('logout')")));
 
 //        addMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.EDIT.create(), "tytul create"));
 

@@ -3,6 +3,7 @@ package com.patrykkosieradzki.todo.ui;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RouteAlias(value = "", layout = MainView.class)
 @PageTitle("Dashboard Todo app")
 public class DashboardView extends VerticalLayout {
-
 
     private TodoLayout todoLayout;
 
