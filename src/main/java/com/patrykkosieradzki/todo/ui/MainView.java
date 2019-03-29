@@ -1,21 +1,15 @@
 package com.patrykkosieradzki.todo.ui;
 
 import com.patrykkosieradzki.todo.TodoAppConstants;
-import com.patrykkosieradzki.todo.ui.component.MyCookieConsent;
+import com.patrykkosieradzki.todo.ui.component.CustomCookieConsent;
 import com.vaadin.flow.component.HasElement;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AbstractAppRouterLayout;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.AppLayoutMenu;
 import com.vaadin.flow.component.applayout.AppLayoutMenuItem;
 import com.vaadin.flow.component.dependency.HtmlImport;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.login.LoginI18n;
-import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.page.Viewport;
 
 @HtmlImport("styles/shared-styles.html")
@@ -31,7 +25,7 @@ public class MainView extends AbstractAppRouterLayout {
 //        confirmDialog.setCancelButtonTheme("raised tertiary");
 //
 //        getElement().appendChild(confirmDialog.getElement());
-        getElement().appendChild(new MyCookieConsent().getElement());
+        getElement().appendChild(new CustomCookieConsent().getElement());
     }
 
     @Override
