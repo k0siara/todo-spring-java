@@ -1,0 +1,42 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/vaadin-ordered-layout/src/vaadin-horizontal-layout.html">
+<link rel="import" href="../bower_components/vaadin-button/src/vaadin-button.html">
+
+<dom-module id="top-menu">
+    <template>
+<style include="shared-styles">
+            :host {
+                display: block;
+            }
+        </style>
+<vaadin-horizontal-layout theme="spacing" style="width: 100%; justify-content:center;">
+ <vaadin-button theme="tertiary" id="vaadinButton">
+   Home 
+ </vaadin-button>
+ <vaadin-button theme="tertiary">
+   Products 
+ </vaadin-button>
+ <vaadin-button theme="tertiary">
+   Services 
+ </vaadin-button>
+ <vaadin-button theme="tertiary">
+   About 
+ </vaadin-button>
+</vaadin-horizontal-layout>
+</template>
+
+    <script>
+        class TopMenu extends Polymer.Element {
+            static get is() {
+                return 'top-menu';
+            }
+
+            static get properties() {
+                return {
+                    // Declare your properties here.
+                };
+            }
+        }
+        customElements.define(TopMenu.is, TopMenu);
+    </script>
+</dom-module>
