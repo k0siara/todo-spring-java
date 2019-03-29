@@ -1,19 +1,18 @@
 package com.patrykkosieradzki.todo.ui;
 
+import com.patrykkosieradzki.todo.TodoAppConstants;
 import com.patrykkosieradzki.todo.app.security.SecurityUtils;
 import com.patrykkosieradzki.todo.ui.component.MyCookieConsent;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.router.*;
-import com.vaadin.flow.templatemodel.TemplateModel;
 
 @Route
 @PageTitle("Todo App")
-@Viewport("width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes")
+@Viewport(TodoAppConstants.VIEWPORT)
 public class LoginView extends VerticalLayout implements AfterNavigationObserver, BeforeEnterObserver {
 
     private LoginOverlay login;

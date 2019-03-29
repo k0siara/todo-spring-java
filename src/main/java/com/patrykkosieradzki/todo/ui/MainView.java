@@ -1,5 +1,6 @@
 package com.patrykkosieradzki.todo.ui;
 
+import com.patrykkosieradzki.todo.TodoAppConstants;
 import com.patrykkosieradzki.todo.ui.component.MyCookieConsent;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.Text;
@@ -18,7 +19,7 @@ import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.page.Viewport;
 
 @HtmlImport("styles/shared-styles.html")
-@Viewport("width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes")
+@Viewport(TodoAppConstants.VIEWPORT)
 public class MainView extends AbstractAppRouterLayout {
 
 //    private final ConfirmDialog confirmDialog;
@@ -41,9 +42,7 @@ public class MainView extends AbstractAppRouterLayout {
         appLayout.setBranding(image);
 
 
-
-
-        addMenuItem(menu, new AppLayoutMenuItem("Login"));
+        addMenuItem(menu, new AppLayoutMenuItem("Settings"));
         addMenuItem(menu, new AppLayoutMenuItem("Logout", e ->
                 UI.getCurrent().getPage().executeJavaScript("location.assign('logout')")));
 

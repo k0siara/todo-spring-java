@@ -9,15 +9,39 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.DelegatingAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
+
+import java.util.LinkedHashMap;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+
+    public SecurityConfiguration() {
+
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DelegatingAuthenticationEntryPoint delegatingAuthenticationEntryPoint() {
+        LinkedHashMap<RequestMatcher, AuthenticationEntryPoint> entryPoints = new LinkedHashMap<>();
+        entryPoints.put(new AntPathRequestMatcher("/api/**"), new Http403ForbiddenEntryPoint());
+
+        DelegatingAuthenticationEntryPoint defaultEntryPoint = new DelegatingAuthenticationEntryPoint(entryPoints);
+        defaultEntryPoint.setDefaultEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
+
+        return defaultEntryPoint;
     }
 
     @Override
@@ -29,6 +53,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .authorizeRequests()
                     .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
                     .anyRequest().hasAnyAuthority("ADMIN", "USER")
+                .and()
+                    .exceptionHandling().authenticationEntryPoint(delegatingAuthenticationEntryPoint())
                 .and()
                     .formLogin().loginPage("/login").permitAll().loginProcessingUrl("/login").failureUrl("/login?error")
                     .successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
