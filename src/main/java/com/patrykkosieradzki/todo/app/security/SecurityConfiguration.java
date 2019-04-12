@@ -49,7 +49,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                     .requestCache().requestCache(new CustomRequestCache())
                 .and()
+                    .headers().frameOptions().disable()
+                .and()
                     .authorizeRequests()
+                    .antMatchers("/h2console/**").permitAll()
                     .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
                     .anyRequest().hasAnyAuthority("ADMIN", "USER")
                 .and()
@@ -59,7 +62,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
                 .and()
                     .logout().logoutSuccessUrl("/");
-
     }
 
     @Override

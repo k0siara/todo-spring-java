@@ -25,6 +25,7 @@ public class DashboardView extends VerticalLayout {
         this.todoLayout = todoLayout;
 
 
+
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
 
         Label header = new Label("TODO");
