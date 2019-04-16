@@ -55,7 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .headers().frameOptions().disable()
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/api/**", "/h2console/**", "/activate").permitAll()
+                    .antMatchers("/api/**", "/h2console/**", "/activate", "/register").permitAll()
                     .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
                     .anyRequest().hasAnyRole("ADMIN", "USER")
                 .and()
