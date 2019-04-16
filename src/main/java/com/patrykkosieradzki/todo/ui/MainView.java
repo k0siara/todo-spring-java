@@ -12,6 +12,10 @@ import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.page.Viewport;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @HtmlImport("styles/shared-styles.html")
 @Viewport(TodoAppConstants.VIEWPORT)
 public class MainView extends AbstractAppRouterLayout {
@@ -34,7 +38,6 @@ public class MainView extends AbstractAppRouterLayout {
         image.setHeight("50px");
 
         appLayout.setBranding(image);
-
 
         addMenuItem(menu, new AppLayoutMenuItem("Settings"));
         addMenuItem(menu, new AppLayoutMenuItem("Logout", e ->

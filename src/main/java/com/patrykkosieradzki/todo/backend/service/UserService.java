@@ -22,7 +22,16 @@ public class UserService {
     }
 
     public User findById(Long id) {
-        return userRepository.findById(id);
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found by id"));
+    }
+
+    public User findByActivationToken(String activationToken) {
+        return userRepository.findByActivationToken(activationToken)
+                .orElseThrow(() -> new RuntimeException("User not found by activationToken"));
+    }
+
+    public void enable(User user) {
+        userRepository.enable(user);
     }
 
     public void save(User user) {

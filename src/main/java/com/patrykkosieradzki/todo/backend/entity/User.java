@@ -26,4 +26,10 @@ public class User extends AbstractEntity {
     @NotBlank
     private String password;
 
+    private boolean isExpired;
+    private boolean isLocked;
+    private boolean isCredentialsExpired;
+    private boolean isEnabled;
+
+    private String activationToken;
 }

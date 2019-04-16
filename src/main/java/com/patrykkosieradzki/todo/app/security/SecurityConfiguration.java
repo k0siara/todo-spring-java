@@ -1,5 +1,6 @@
 package com.patrykkosieradzki.todo.app.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -23,14 +24,16 @@ import java.util.LinkedHashMap;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    private CustomUserDetailsService customUserDetailsService;
 
-    public SecurityConfiguration() {
-
+    @Autowired
+    public SecurityConfiguration(CustomUserDetailsService customUserDetailsService) {
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new BCryptPasswordEncoder(15);
     }
 
     @Bean
@@ -52,9 +55,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .headers().frameOptions().disable()
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/api/**", "/h2console/**").permitAll()
+                    .antMatchers("/api/**", "/h2console/**", "/activate").permitAll()
                     .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
-                    .anyRequest().hasAnyAuthority("ADMIN", "USER")
+                    .anyRequest().hasAnyRole("ADMIN", "USER")
                 .and()
                     .exceptionHandling().authenticationEntryPoint(delegatingAuthenticationEntryPoint())
                 .and()
@@ -66,20 +69,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin")
-                .password(passwordEncoder().encode("admin"))
-                .authorities("ADMIN")
-
-                .and()
-
-                .withUser("user")
-                .password(passwordEncoder().encode("user"))
-                .authorities("USER")
-
-                .and()
-
-                .passwordEncoder(passwordEncoder());
+        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Override
