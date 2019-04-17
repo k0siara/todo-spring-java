@@ -2,13 +2,14 @@ package com.patrykkosieradzki.todo.backend.service;
 
 import com.patrykkosieradzki.todo.backend.entity.User;
 import com.patrykkosieradzki.todo.backend.repository.UserRepository;
+import com.patrykkosieradzki.todo.backend.service.util.FieldValueExists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements FieldValueExists {
 
     private UserRepository userRepository;
 
@@ -36,5 +37,10 @@ public class UserService {
 
     public void save(User user) {
         userRepository.save(user);
+    }
+
+    @Override
+    public boolean fieldValueExists(String fieldName, Object value) {
+        return userRepository.existsByFieldName(fieldName, value.toString());
     }
 }

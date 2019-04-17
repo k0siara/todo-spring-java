@@ -31,4 +31,6 @@ public interface UserRepository {
             "values(#{id}, #{firstName}, #{lastName}, #{username}, #{email}, #{password})")
     void save(User user);
 
+    @Select("SELECT EXISTS(SELECT 1 FROM users WHERE ${fieldName} = #{value})")
+    boolean existsByFieldName(@Param("fieldName") String fieldName, @Param("value") String value);
 }
