@@ -1,4 +1,4 @@
-package com.patrykkosieradzki.todo.backend.validator;
+package com.patrykkosieradzki.todo.backend.validator.unique;
 
 import com.patrykkosieradzki.todo.app.ApplicationContextProvider;
 import com.patrykkosieradzki.todo.backend.service.util.FieldValueExists;

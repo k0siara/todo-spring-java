@@ -1,7 +1,8 @@
 package com.patrykkosieradzki.todo.backend.entity;
 
 import com.patrykkosieradzki.todo.backend.service.UserService;
-import com.patrykkosieradzki.todo.backend.validator.Unique;
+import com.patrykkosieradzki.todo.backend.validator.password.Password;
+import com.patrykkosieradzki.todo.backend.validator.unique.Unique;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +30,8 @@ public class User extends AbstractEntity {
     @Unique(service = UserService.class, fieldName = "email", message = "Email is already taken")
     private String email;
 
-    @NotEmpty(message = "Password can't be empty") // TODO: 17-Apr-19 password validator
+    @Password(message = "Password has to be at least 8 characters long...") // TODO: 19-Apr-19 add better message
+    @NotEmpty(message = "Password can't be empty")
     private String password;
 
     private boolean isExpired;
@@ -37,5 +39,5 @@ public class User extends AbstractEntity {
     private boolean isCredentialsExpired;
     private boolean isEnabled;
 
-    private String activationToken;
+    private String activationToken; // TODO: 19-Apr-19 remove field, create entity
 }
