@@ -39,5 +39,5 @@ public class User extends AbstractEntity {
     private boolean isCredentialsExpired;
     private boolean isEnabled;
 
-    private String activationToken; // TODO: 19-Apr-19 remove field, create entity
+    private Long activationTokenId;
 }

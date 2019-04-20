@@ -6,7 +6,7 @@ import com.patrykkosieradzki.todo.backend.service.util.FieldValueExists;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class UniqueValidator implements ConstraintValidator<Unique, Object> {
+public class UniqueConstraintValidator implements ConstraintValidator<Unique, Object> {
 
     private FieldValueExists service;
     private String fieldName;

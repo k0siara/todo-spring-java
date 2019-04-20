@@ -2,6 +2,7 @@ package com.patrykkosieradzki.todo.ui;
 
 import com.patrykkosieradzki.todo.TodoAppConstants;
 import com.patrykkosieradzki.todo.backend.entity.User;
+import com.patrykkosieradzki.todo.backend.service.UserService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.notification.Notification;
@@ -16,12 +17,15 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.Validator;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Route
 @PageTitle("Register")
 @Viewport(TodoAppConstants.VIEWPORT)
 public class RegisterView extends VerticalLayout {
+
+    private UserService userService;
 
     private final Binder<User> binder = new BeanValidationBinder<>(User.class);
 
@@ -33,11 +37,13 @@ public class RegisterView extends VerticalLayout {
     private PasswordField confirmPassword = new PasswordField("Confirm password");
     private Button registerButton = new Button("Sign Up");
 
-    private User user;
+    private User user = new User();
 
-    public RegisterView() {
+    @Autowired
+    public RegisterView(UserService userService) {
+        this.userService = userService;
+
         binder.setBean(user);
-
         createLayout();
     }
 
@@ -72,8 +78,11 @@ public class RegisterView extends VerticalLayout {
 
         registerButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         registerButton.addClickListener(event -> {
-            Notification.show("kliknięto");
             binder.validate();
+            Notification.show("zarejestrowano");
+
+            userService.register(user);
+
         });
 
         HorizontalLayout names = new HorizontalLayout(firstName, lastName);

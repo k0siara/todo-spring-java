@@ -1,21 +1,28 @@
 package com.patrykkosieradzki.todo.backend.service;
 
+import com.patrykkosieradzki.todo.backend.entity.ActivationToken;
 import com.patrykkosieradzki.todo.backend.entity.User;
 import com.patrykkosieradzki.todo.backend.repository.UserRepository;
 import com.patrykkosieradzki.todo.backend.service.util.FieldValueExists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class UserService implements FieldValueExists {
 
     private UserRepository userRepository;
+    private ActivationTokenService activationTokenService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ActivationTokenService activationTokenService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.activationTokenService = activationTokenService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> findAll() {
@@ -30,6 +37,23 @@ public class UserService implements FieldValueExists {
         return userRepository.findByActivationToken(activationToken)
                 .orElseThrow(() -> new RuntimeException("User not found by activationToken"));
     }
+
+
+    public User register(User user) {
+        ActivationToken activationToken = activationTokenService.create();
+        user.setActivationTokenId(activationToken.getId());
+
+        LocalDateTime now = LocalDateTime.now();
+        user.setCreatedAt(now);
+        user.setUpdatedAt(now);
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        userRepository.save(user);
+        return userRepository.findById(user.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
 
     public void enable(User user) {
         userRepository.enable(user);
