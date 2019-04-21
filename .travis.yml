@@ -1,6 +1,20 @@
 language: java
+
 jdk:
-  - oraclejdk11
+- oraclejdk11
 
 before_install:
-  - chmod +x mvnw
+- chmod +x mvnw
+
+env:
+  global:
+    secure: bO2Wp4p2pHMdOMmifWPG0pBYPoQUaRnIn7sNSR3sK/VUmYqt8ZTjqyRTmPBxvexovgHwonTdy4zrikbFGypYPgYabzWNcgrtxmF4PgFKmSV4Q3av21zfv+pGTvjG8gSABrglptkiwR6hLk3sfGPqBMQmfSY3JEc6HurWVDao0VAje28vpJTyHTwVp8SLzg384nVKrCxmMiH1IeQOngmiLd/uGO9W/kT9bGgU8pHkNUnW94uCH+0/KN39Kq6o79x2hzKd6iwIVVY8FXCI7YXEUs7xKHLuiRmr6sJA32jf0TiYxjqX8tpOpgxcJxFSSBV7CohGR9UgzfmMKbnHJ5tkEzZsUFjQi/om9li+MJiA2aKkBOooyB/p9KYIX7LABxYW8L3H96AF0WRDriKWd855qv0zB1N99I5GMqS3vLnwWsoDvNzqz2exNnz54pId/iBqVcHprZyu2KsBEUdDS/dK5pFHmILe/9qznvGHwzls0yR3AKXNPSANe+ht+TzoYuDaattH/C+bxVGj0vlkPnuWrfN6mvU2355GXK+721k+9/F1QV3w1N/x6sgm2hHoKpVu1pDsqQWwqhsdoRuWwyufg8wFEUTzYf5lvzDPEMTL+O79qu5eD5aV7gWQWOAhIpwiVWqHg1B5BkxOdnAKFu7HJkLxaSROdlhl3qP8OO37dv8=
+
+addons:
+  sonarcloud:
+    organization: "k0siara-github"
+    token:
+      secure: $SONAR_TOKEN
+
+script:
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
