@@ -8,6 +8,8 @@ import com.patrykkosieradzki.todo.backend.service.util.FieldValueExists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,6 +23,9 @@ public class UserService implements FieldValueExists {
 
     @Autowired
     private CustomEmailService emailService;
+
+    @Autowired
+    private TemplateEngine templateEngine; // TODO: 2019-04-23 remove field injections
 
     @Autowired
     public UserService(UserRepository userRepository, ActivationTokenService activationTokenService, PasswordEncoder passwordEncoder) {
@@ -53,7 +58,13 @@ public class UserService implements FieldValueExists {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        emailService.sendMessage(user.getEmail(), "link aktywacyjny", "twoj token aktywacyjny: " + activationToken.getValue());
+        Context context = new Context();
+        context.setVariable("header", "Registration");
+        context.setVariable("title", "Click the link below to activate your account");
+        context.setVariable("activation_token", activationToken.getValue());
+
+        String body = templateEngine.process("registration-email-template", context);
+        emailService.sendMessage(user.getEmail(), "link aktywacyjny", body);
 
         userRepository.save(user);
         return userRepository.findById(user.getId())
@@ -63,7 +74,7 @@ public class UserService implements FieldValueExists {
 
     public void enable(User user) {
         userRepository.enable(user);
-    }
+    } // TODO: 2019-04-23 remove?
 
     public void save(User user) {
         userRepository.save(user);
