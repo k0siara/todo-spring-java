@@ -1,1 +1,1 @@
-web java -Dserver.port=$PORT -Dspring.profiles.active=heroku $JAVA_OPTS -jar target/*.jar
+web java -Dserver.port=$PORT -Dspring.profiles.active=heroku -Djasypt.encryptor.password=$JASYPT_ENCRYPTOR_PASSWORD $JAVA_OPTS -jar target/*.jar
