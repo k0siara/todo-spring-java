@@ -2,6 +2,7 @@ package com.patrykkosieradzki.todo.backend.service;
 
 import com.patrykkosieradzki.todo.backend.entity.ActivationToken;
 import com.patrykkosieradzki.todo.backend.entity.User;
+import com.patrykkosieradzki.todo.backend.mail.CustomEmailService;
 import com.patrykkosieradzki.todo.backend.repository.UserRepository;
 import com.patrykkosieradzki.todo.backend.service.util.FieldValueExists;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class UserService implements FieldValueExists {
     private UserRepository userRepository;
     private ActivationTokenService activationTokenService;
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private CustomEmailService emailService;
 
     @Autowired
     public UserService(UserRepository userRepository, ActivationTokenService activationTokenService, PasswordEncoder passwordEncoder) {
@@ -48,6 +52,8 @@ public class UserService implements FieldValueExists {
         user.setUpdatedAt(now);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        emailService.sendMessage(user.getEmail(), "link aktywacyjny", "twoj token aktywacyjny: " + activationToken.getValue());
 
         userRepository.save(user);
         return userRepository.findById(user.getId())

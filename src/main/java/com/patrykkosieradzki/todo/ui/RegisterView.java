@@ -79,10 +79,13 @@ public class RegisterView extends VerticalLayout {
         registerButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         registerButton.addClickListener(event -> {
             binder.validate();
-            Notification.show("zarejestrowano");
 
-            userService.register(user);
-
+            if (binder.isValid()) {
+                Notification.show("zarejestrowano");
+                userService.register(user);
+            } else {
+                Notification.show("popraw dane");
+            }
         });
 
         HorizontalLayout names = new HorizontalLayout(firstName, lastName);
