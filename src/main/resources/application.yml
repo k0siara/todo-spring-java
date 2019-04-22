@@ -10,9 +10,3 @@ mybatis:
 logging:
   level:
     com.patrykkosieradzki.todo: debug
-
-db:
-  url: ${spring.datasource.url}
-  username: ${spring.datasource.username}
-  password: ${spring.datasource.password}
-  driver: org.postgresql.Driver
