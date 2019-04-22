@@ -1,5 +1,5 @@
 db:
   url: ${JDBC_DATABASE_URL}
   username: ${JDBC_DATABASE_USERNAME}
-  password: ${JDBC_DATABASE_PASSWORD  }
+  password: ${JDBC_DATABASE_PASSWORD}
   driver: org.postgresql.Driver
