@@ -13,4 +13,4 @@ logging:
 
 spring:
   profiles:
-    active: heroku
+    active: dev
