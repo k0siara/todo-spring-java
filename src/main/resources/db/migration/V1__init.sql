@@ -1,6 +1,6 @@
 create table activation_tokens
 (
-    id         bigint primary key auto_increment,
+    id         bigserial primary key,
     value      varchar(32) unique not null,
     expires_at timestamp          not null,
     created_at timestamp          not null,
@@ -9,7 +9,7 @@ create table activation_tokens
 
 create table users
 (
-    id                     bigint primary key auto_increment,
+    id                     bigserial primary key,
     first_name             varchar(255)        not null,
     last_name              varchar(255)        not null,
     username               varchar(255) unique not null,
@@ -28,7 +28,7 @@ create table users
 
 create table roles
 (
-    id         bigint primary key auto_increment,
+    id         bigserial primary key,
     name       varchar(50) unique not null,
     created_at timestamp          not null,
     updated_at timestamp          not null
