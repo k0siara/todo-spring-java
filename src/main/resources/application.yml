@@ -10,3 +10,7 @@ mybatis:
 logging:
   level:
     com.patrykkosieradzki.todo: debug
+
+spring:
+  profiles:
+    active: heroku
