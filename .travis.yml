@@ -4,6 +4,8 @@ jdk: oraclejdk11
 
 before_install:
 - chmod +x mvnw
+- mvn -Djasypt.encryptor.password=$JASYPT_ENCRYPTOR_PASSWORD install
+
 
 env:
   global:
@@ -19,7 +21,6 @@ addons:
 
 script:
 - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
-- mvn -Djasypt.encryptor.password=$JASYPT_ENCRYPTOR_PASSWORD install
 
 deploy:
   provider: heroku
