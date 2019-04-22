@@ -1,6 +1,6 @@
 language: java
 
-jdk: oraclejdk8
+jdk: oraclejdk11
 
 before_install:
   - chmod +x mvnw
@@ -10,14 +10,14 @@ env:
   - secure: fzcuivTlgtdoVZT/EWkGruVORZWPE2euLqz1G2pnSbatWKNPFLsuEbW0FCTVRN31In/5VCUP/1KlFH7Dh7Ocw+o4u/Gfz0sMEVQlXP25j3Dk0mgjtZT6DVh7aZ520CndQcdTmvQtoU6jcT5wZVF18P1hy5N5ugq7Q3HyQEUdUwo5vLxf7qLzD/G0h/+p6UP8O5NNWIZS8sJzSeMSRbZ7FajElVZvjTQGdfpGtO3F3Ow8ZH4gwAc7ZzCCMGGLxGYPXVx0fjXLxQy1P4cEPPWf7ZAqutGxG892vf0R86bjBX/RHudHkHHGv5FCc1IvCpH6CarEoRyyH8/Wm4AC5dq5LYG2KkPJ7m2SOyFhYe23Xw4TFO7LTl/f0hMUkse2HJ1Rsuf1ezEa0LK9Rf72panq7vBW/RABXNy7bl7lKX6GQwe1tK/11nZRY2bRw7JKTt0lSl4eb3ZWLfTD4E5YUh+vW3ETlPbbnvFtkJlgtvA3fHbMORHj9Ku6KV6NUdAXL5A/VCYv5nmVd54jQJCirdZZmyUlQiBiXrqIa+VPe9Vn42N9cFSx9x8g1qVQ0UvpsdvisdSCpNVqGDhq0a/pcWDAZoqCKLXTF42up6htrEhSfhqi3WmPSxZAzEBlN8y1YTcvowczn7ZE4JMS+dSk7ff2pH5i6tGU5KrHfxTVa7IQOE4=
   - secure: iaZNAmt0MMZZSfO/3zpiehTVzjgboOjaHXSrgVTkybDuDk3RB1idxxAjD+/dGEiigqLSkwV/2d2Wwdim3FNFynIYCl/4Bw13S0fAEk7w4/pJu7Hi+frkeBJNadhwDq+Rxbe2cWBP9mrOBJCA50UR5Zr1HDjUvA4HICwmajo4cJAMV6WJW0CShxpMzezB9OEh1qxfbdS5kUcoKNv8Z8gZz081/yWlEKPELXNiTRE2GNsJLnloFuCtgL6204Bf1LfQP2LHgrpuLdbuNEYOHcRzUXGJCcY12xGoqhm4yKEnqkmnqh5U//P+BPrWYTVQmD/IJ/cy1eJLWp6conecPQ51VaU2ksM6dDYCViGbSlp7ZF8GfX0adtAraQJIxjzQMb21pbhMxVJUQnpsTBYUGM3hSaxI1VoL/mm5yAytqkE+JYGQzEUPprHwCl6+83oJ9PyOF/osDFeKHICyT4VusZbBqXTdktMuxhsT6Lv4NPLTWdk5pqygL1c1LeHY6BuWWJXX+s22beVY0nk275Cj/volcePfqBiynaZCS3OVNreNmxejLVr/pNadKixiUwDRrCWoy2LONi5JbLqW8n3BalwfVczYgxL55NkZbJeo2oGypjovQ6zNHhXJ/I99JvETPQyn1U1FPTBkQh+thGOrjdhMg14dXnMI3wUMc9q43JF0as4=
 
-addons:
-  sonarcloud:
-    organization: k0siara-github
-    token:
-      secure: "$SONAR_TOKEN"
-
-script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+#addons:
+#  sonarcloud:
+#    organization: k0siara-github
+#    token:
+#      secure: "$SONAR_TOKEN"
+#
+#script:
+#  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
 #
 #deploy:
 #  provider: heroku
