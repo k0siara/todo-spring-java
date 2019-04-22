@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class FlywayMigrations implements InitializingBean {
 
-    @Value("${JDBC_DATABASE_URL}")
+    @Value("${db.url}")
     private String url;
 
-    @Value("${JDBC_DATABASE_USERNAME}")
+    @Value("${db.username}")
     private String username;
 
-    @Value("${JDBC_DATABASE_PASSWORD}")
+    @Value("${db.password}")
     private String password;
 
     @Override
