@@ -4,8 +4,6 @@ jdk: oraclejdk11
 
 before_install:
 - chmod +x mvnw
-- mvn -Djasypt.encryptor.password=$JASYPT_ENCRYPTOR_PASSWORD install
-
 
 env:
   global:
@@ -20,6 +18,7 @@ addons:
       secure: "$SONAR_TOKEN"
 
 script:
+- ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -Djasypt.encryptor.password=$JASYPT_ENCRYPTOR_PASSWORD -B -V
 - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
 
 deploy:
