@@ -18,7 +18,7 @@ public class FlywayMigrations implements InitializingBean {
     private String password;
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         migrate();
     }
 

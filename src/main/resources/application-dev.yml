@@ -1,0 +1,15 @@
+server:
+  port: 1234
+
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2console
+
+db:
+  url: jdbc:h2:file:./todo_h2_db
+  username: sa
+  password:
+  driver: org.h2.Driver
+

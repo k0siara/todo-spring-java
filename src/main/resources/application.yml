@@ -1,0 +1,12 @@
+server:
+  jackson:
+    serialization:
+      indent-output: true
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com.patrykkosieradzki.todo: debug
