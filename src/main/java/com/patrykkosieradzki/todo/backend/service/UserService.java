@@ -48,7 +48,7 @@ public class UserService implements FieldValueExists {
     }
 
 
-    public User register(User user) {
+    public void register(User user) {
         ActivationToken activationToken = activationTokenService.create();
         user.setActivationTokenId(activationToken.getId());
 
@@ -56,28 +56,30 @@ public class UserService implements FieldValueExists {
         user.setCreatedAt(now);
         user.setUpdatedAt(now);
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        Context context = new Context();
-        context.setVariable("header", "Registration");
-        context.setVariable("title", "Click the link below to activate your account");
-        context.setVariable("activation_token", activationToken.getValue());
-
-        String body = templateEngine.process("registration-email-template", context);
-        emailService.sendMessage(user.getEmail(), "link aktywacyjny", body);
-
+        encodePassword(user);
         userRepository.save(user);
-        return userRepository.findById(user.getId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        sendAccountActivationEmail(user, activationToken);
     }
 
+    private void encodePassword(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    }
 
-    public void enable(User user) {
-        userRepository.enable(user);
-    } // TODO: 2019-04-23 remove?
+    private void sendAccountActivationEmail(User user, ActivationToken activationToken) {
+        Context context = new Context();
+        context.setVariable("activation_link", "/activate?token=" + activationToken.getValue());
+
+        String body = templateEngine.process("registration-email-template", context);
+        emailService.sendMessage(user.getEmail(), "Welcome to Todo App", body);
+    }
 
     public void save(User user) {
         userRepository.save(user);
+    }
+
+    public void update(User user) {
+        userRepository.update(user);
     }
 
     @Override
