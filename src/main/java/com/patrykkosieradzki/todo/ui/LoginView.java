@@ -3,6 +3,7 @@ package com.patrykkosieradzki.todo.ui;
 import com.patrykkosieradzki.todo.TodoAppConstants;
 import com.patrykkosieradzki.todo.app.security.SecurityUtils;
 import com.patrykkosieradzki.todo.ui.component.CustomCookieConsent;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;

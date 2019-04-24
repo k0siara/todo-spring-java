@@ -27,10 +27,7 @@ public class ActivationTokenService implements HasLogger {
         getLogger().debug("generated random activation token: " + randomToken);
         activationToken.setValue(randomToken);
 
-        LocalDateTime now = LocalDateTime.now();
-        activationToken.setCreatedAt(now);
-        activationToken.setUpdatedAt(now);
-        activationToken.setExpiresAt(now.plus(7, ChronoUnit.DAYS));
+        activationToken.setExpiresAt(LocalDateTime.now().plusDays(7));
 
         activationTokenRepository.save(activationToken);
         getLogger().debug("inserted new activation token with id: " + activationToken.getId());

@@ -1,10 +1,12 @@
 package com.patrykkosieradzki.todo.backend.service;
 
+import com.patrykkosieradzki.todo.TodoAppConstants;
 import com.patrykkosieradzki.todo.backend.entity.ActivationToken;
 import com.patrykkosieradzki.todo.backend.entity.User;
 import com.patrykkosieradzki.todo.backend.mail.CustomEmailService;
 import com.patrykkosieradzki.todo.backend.repository.UserRepository;
 import com.patrykkosieradzki.todo.backend.service.util.FieldValueExists;
+import com.patrykkosieradzki.todo.backend.util.ServerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import org.thymeleaf.context.Context;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 
 @Service
 public class UserService implements FieldValueExists {
@@ -47,14 +50,9 @@ public class UserService implements FieldValueExists {
                 .orElseThrow(() -> new RuntimeException("User not found by activationToken"));
     }
 
-
     public void register(User user) {
         ActivationToken activationToken = activationTokenService.create();
         user.setActivationTokenId(activationToken.getId());
-
-        LocalDateTime now = LocalDateTime.now();
-        user.setCreatedAt(now);
-        user.setUpdatedAt(now);
 
         encodePassword(user);
         userRepository.save(user);
@@ -68,10 +66,11 @@ public class UserService implements FieldValueExists {
 
     private void sendAccountActivationEmail(User user, ActivationToken activationToken) {
         Context context = new Context();
-        context.setVariable("activation_link", "/activate?token=" + activationToken.getValue());
+        context.setVariable("activation_link",
+                ServerUtils.getAddress() + TodoAppConstants.ACTIVATION_ENDPOINT + activationToken.getValue());
 
         String body = templateEngine.process("registration-email-template", context);
-        emailService.sendMessage(user.getEmail(), "Welcome to Todo App", body);
+        emailService.sendMessage(user.getEmail(), TodoAppConstants.ACTIVATION_EMAIL_SUBJECT, body);
     }
 
     public void save(User user) {

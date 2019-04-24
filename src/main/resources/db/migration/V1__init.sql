@@ -3,8 +3,8 @@ create table activation_tokens
     id         bigserial primary key,
     value      varchar(32) unique not null,
     expires_at timestamp          not null,
-    created_at timestamp          not null,
-    updated_at timestamp          not null
+    created_at timestamp          not null default current_timestamp,
+    updated_at timestamp          not null default current_timestamp
 );
 
 create table users
@@ -20,8 +20,8 @@ create table users
     is_credentials_expired boolean             not null default false,
     is_enabled             boolean             not null default false,
     activation_token_id    bigint              unique not null,
-    created_at             timestamp           not null,
-    updated_at             timestamp           not null,
+    created_at             timestamp           not null default current_timestamp,
+    updated_at             timestamp           not null default current_timestamp,
 
     foreign key (activation_token_id) references activation_tokens (id)
 );
@@ -30,8 +30,8 @@ create table roles
 (
     id         bigserial primary key,
     name       varchar(50) unique not null,
-    created_at timestamp          not null,
-    updated_at timestamp          not null
+    created_at timestamp          not null default current_timestamp,
+    updated_at timestamp          not null default current_timestamp
 );
 
 
@@ -44,7 +44,3 @@ create table user_roles
     foreign key (role_id) references roles (id),
     primary key (user_id, role_id)
 );
-
-
-
-
