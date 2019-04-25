@@ -3,12 +3,13 @@ package com.patrykkosieradzki.todo.backend.mail;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
 @Configuration
+@Profile("!test")
 public class MailSenderConfiguration {
 
     @Value("${mail.host}")
@@ -24,7 +25,7 @@ public class MailSenderConfiguration {
     private String password;
 
     @Bean
-    JavaMailSender javaMailSender() {
+    JavaMailSenderImpl javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(host);
         mailSender.setPort(port);

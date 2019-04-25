@@ -4,6 +4,7 @@ import com.patrykkosieradzki.todo.TodoAppConstants;
 import com.patrykkosieradzki.todo.backend.entity.ActivationToken;
 import com.patrykkosieradzki.todo.backend.entity.User;
 import com.patrykkosieradzki.todo.backend.mail.CustomEmailService;
+import com.patrykkosieradzki.todo.backend.mail.Email;
 import com.patrykkosieradzki.todo.backend.repository.UserRepository;
 import com.patrykkosieradzki.todo.backend.service.util.FieldValueExists;
 import com.patrykkosieradzki.todo.backend.util.ServerUtils;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -70,7 +70,7 @@ public class UserService implements FieldValueExists {
                 ServerUtils.getAddress() + TodoAppConstants.ACTIVATION_ENDPOINT + activationToken.getValue());
 
         String body = templateEngine.process("registration-email-template", context);
-        emailService.sendMessage(user.getEmail(), TodoAppConstants.ACTIVATION_EMAIL_SUBJECT, body);
+        emailService.sendMessage(new Email("todo.spring.java@outlook.com", user.getEmail(), TodoAppConstants.ACTIVATION_EMAIL_SUBJECT, body, true));
     }
 
     public void save(User user) {
