@@ -1,25 +1,23 @@
 package com.patrykkosieradzki.todo.backend.service;
 
-import com.helger.commons.annotation.VisibleForTesting;
-import com.patrykkosieradzki.todo.TodoAppConstants;
+import com.patrykkosieradzki.todo.AppConstants;
 import com.patrykkosieradzki.todo.app.HasLogger;
 import com.patrykkosieradzki.todo.backend.entity.ActivationToken;
 import com.patrykkosieradzki.todo.backend.entity.User;
-import com.patrykkosieradzki.todo.backend.mail.CustomEmailService;
 import com.patrykkosieradzki.todo.backend.mail.Email;
 import com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository;
 import com.patrykkosieradzki.todo.backend.repository.UserRepository;
 import com.patrykkosieradzki.todo.backend.service.util.FieldValueExists;
-import com.patrykkosieradzki.todo.backend.util.ServerUtils;
 import com.patrykkosieradzki.todo.backend.util.TokenUtils;
+import com.patrykkosieradzki.todo.ui.utils.ThymeleafUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -30,7 +28,7 @@ public class UserService implements FieldValueExists, HasLogger {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private CustomEmailService emailService;
+    private EmailService emailService;
 
     @Autowired
     private TemplateEngine templateEngine; // TODO: 2019-04-23 remove field injections
@@ -79,12 +77,11 @@ public class UserService implements FieldValueExists, HasLogger {
     }
 
     private void sendAccountActivationEmail(User user) {
-        Context context = new Context();
-        context.setVariable("activation_link",
-                ServerUtils.getAddress() + TodoAppConstants.ACTIVATION_ENDPOINT + user.getActivationToken().getValue());
+        String body = ThymeleafUtils.getProcessedHtml(Map.of(
+                "activation_link", AppConstants.ACTIVATION_ADDRESS + user.getActivationToken().getValue()),
+                "registration-email-template");
 
-        String body = templateEngine.process("registration-email-template", context);
-        emailService.sendMessage(new Email("todo.spring.java@outlook.com", user.getEmail(), TodoAppConstants.ACTIVATION_EMAIL_SUBJECT, body, true));
+        emailService.sendMessage(new Email("todo.spring.java@outlook.com", user.getEmail(), AppConstants.ACTIVATION_EMAIL_SUBJECT, body, true));
     }
 
     public void save(User user) {

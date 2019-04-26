@@ -1,38 +1,42 @@
 package com.patrykkosieradzki.todo.backend.mail;
 
+import com.patrykkosieradzki.todo.app.HasLogger;
+import com.patrykkosieradzki.todo.backend.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 @Service
-public class CustomEmailService implements EmailService {
+public class EmailServiceImpl implements EmailService, HasLogger {
 
     private JavaMailSender mailSender;
 
     @Autowired
-    public CustomEmailService(JavaMailSender mailSender) {
+    public EmailServiceImpl(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
 
     @Override
     public void sendMessage(Email email) {
-        MimeMessage message = mailSender.createMimeMessage();
-        try {
-            MimeMessageHelper helper = new MimeMessageHelper(message, email.isMultipart());
+        MimeMessagePreparator message = mimeMessage -> {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, email.isMultipart());
             helper.setFrom(email.getFrom());
             helper.setTo(email.getTo());
             helper.setSubject(email.getSubject());
             helper.setText(email.getText(), email.isMultipart());
+        };
 
-        } catch (MessagingException e) {
-            e.printStackTrace();
+        try {
+            mailSender.send(message);
+        } catch (MailException e) {
+            getLogger().error(e.getMessage());
         }
-
-        mailSender.send(message);
     }
 
 }

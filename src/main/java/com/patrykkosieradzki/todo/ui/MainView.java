@@ -1,6 +1,6 @@
 package com.patrykkosieradzki.todo.ui;
 
-import com.patrykkosieradzki.todo.TodoAppConstants;
+import com.patrykkosieradzki.todo.AppConstants;
 import com.patrykkosieradzki.todo.ui.component.CustomCookieConsent;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.UI;
@@ -12,12 +12,8 @@ import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.page.Viewport;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 @HtmlImport("styles/shared-styles.html")
-@Viewport(TodoAppConstants.VIEWPORT)
+@Viewport(AppConstants.VIEWPORT)
 public class MainView extends AbstractAppRouterLayout {
 
 //    private final ConfirmDialog confirmDialog;

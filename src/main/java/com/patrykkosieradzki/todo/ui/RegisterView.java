@@ -1,6 +1,6 @@
 package com.patrykkosieradzki.todo.ui;
 
-import com.patrykkosieradzki.todo.TodoAppConstants;
+import com.patrykkosieradzki.todo.AppConstants;
 import com.patrykkosieradzki.todo.backend.entity.User;
 import com.patrykkosieradzki.todo.backend.service.UserService;
 import com.vaadin.flow.component.button.Button;
@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Route
 @PageTitle("Register")
-@Viewport(TodoAppConstants.VIEWPORT)
+@Viewport(AppConstants.VIEWPORT)
 public class RegisterView extends VerticalLayout {
 
     private UserService userService;

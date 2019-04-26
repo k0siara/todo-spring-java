@@ -2,6 +2,7 @@ package com.patrykkosieradzki.todo.backend.mail
 
 import com.icegreen.greenmail.junit.GreenMailRule
 import com.icegreen.greenmail.util.ServerSetup
+import com.patrykkosieradzki.todo.backend.service.EmailService
 import org.junit.Rule
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -13,7 +14,7 @@ import spock.lang.Specification
 class CustomEmailServiceSpecIT extends Specification {
 
     @Autowired
-    private CustomEmailService customEmailService
+    private EmailService customEmailService
 
     @Rule
     private GreenMailRule greenMailRule =
@@ -40,19 +41,19 @@ class CustomEmailServiceSpecIT extends Specification {
         then: "Message is present"
         messages.length == 1
 
-        then: "Sender is the same"
+        and: "Sender is the same"
         messages[0].from[0].toString() == email.from
 
-        then: "Receiver is the same"
+        and: "Receiver is the same"
         messages[0].allRecipients[0].toString() == email.to
 
-        then: "Subject is the same"
+        and: "Subject is the same"
         messages[0].subject == email.subject
 
-        then: "Content is the same"
+        and: "Content is the same"
         messages[0].getContent().toString().contains(email.text)
 
-        then: "Exception is not thrown"
+        and: "Exception is not thrown"
         noExceptionThrown()
     }
 }
