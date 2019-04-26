@@ -1,5 +1,6 @@
 package com.patrykkosieradzki.todo.backend.service;
 
+import com.helger.commons.annotation.VisibleForTesting;
 import com.patrykkosieradzki.todo.TodoAppConstants;
 import com.patrykkosieradzki.todo.backend.entity.ActivationToken;
 import com.patrykkosieradzki.todo.backend.entity.User;
@@ -52,7 +53,7 @@ public class UserService implements FieldValueExists {
 
     public void register(User user) {
         ActivationToken activationToken = activationTokenService.create();
-        user.setActivationTokenId(activationToken.getId());
+        user.setActivationToken(activationToken);
 
         encodePassword(user);
         userRepository.save(user);

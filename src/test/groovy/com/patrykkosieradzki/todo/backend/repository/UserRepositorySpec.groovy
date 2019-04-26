@@ -32,7 +32,7 @@ class UserRepositorySpec extends Specification {
         user.username = "john_doe"
         user.email = "john.doe@example.com"
         user.password = "password"
-        user.activationTokenId = activationToken.id
+        user.activationToken = activationToken
     }
 
     def "find user by existing id"() {

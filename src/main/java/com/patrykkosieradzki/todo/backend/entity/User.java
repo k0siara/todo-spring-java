@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -39,5 +40,8 @@ public class User extends AbstractEntity {
     private boolean isCredentialsExpired;
     private boolean isEnabled;
 
-    private Long activationTokenId;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    private ActivationToken activationToken;
 }

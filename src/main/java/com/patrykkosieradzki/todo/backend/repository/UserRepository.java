@@ -1,5 +1,6 @@
 package com.patrykkosieradzki.todo.backend.repository;
 
+import com.patrykkosieradzki.todo.backend.entity.ActivationToken;
 import com.patrykkosieradzki.todo.backend.entity.User;
 import org.apache.ibatis.annotations.*;
 
@@ -10,27 +11,47 @@ import java.util.Optional;
 public interface UserRepository {
 
     @Select("SELECT * FROM users WHERE id = #{id}")
+    @Results(value = {
+            @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
+                    one = @One(select = "com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository.findById"))
+    })
     Optional<User> findById(@Param("id") Long id);
 
     @Select("SELECT * FROM users WHERE username = #{username}")
+    @Results(value = {
+            @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
+                    one = @One(select = "com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository.findById"))
+    })
     Optional<User> findByUsername(@Param("username") String username);
 
     @Select("SELECT * FROM users WHERE email = #{email}")
+    @Results(value = {
+            @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
+                    one = @One(select = "com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository.findById"))
+    })
     Optional<User> findByEmail(@Param("email") String email);
 
     @Select("SELECT u.id, u.first_name, u.last_name, u.username, u.email, u.password, u.is_expired, u.is_locked," +
             "u.is_credentials_expired, u.is_enabled, u.activation_token_id, u.created_at, u.updated_at FROM users u " +
             "JOIN activation_tokens at on u.activation_token_id = at.id " +
             "WHERE at.value = #{activationToken}")
+    @Results(value = {
+            @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
+                    one = @One(select = "com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository.findById"))
+    })
     Optional<User> findByActivationToken(@Param("activationToken") String activationToken);
 
     @Select("SELECT * FROM users")
+    @Results(value = {
+            @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
+            one = @One(select = "com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository.findById"))
+    })
     List<User> findAll();
 
     @Insert("INSERT INTO users(first_name, last_name, username, email, password, is_expired, is_locked, " +
             "is_credentials_expired, is_enabled, activation_token_id) " +
             "values (#{firstName}, #{lastName}, #{username}, #{email}, #{password}, #{isExpired}, #{isLocked}, " +
-            "#{isCredentialsExpired}, #{isEnabled}, #{activationTokenId})")
+            "#{isCredentialsExpired}, #{isEnabled}, #{activationToken.activationTokenId})")
     @SelectKey(statement = "SELECT LAST_INSERT_ID() as id", keyProperty = "id", before = false, resultType = Long.class)
     void save(User user);
 

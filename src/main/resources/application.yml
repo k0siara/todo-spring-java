@@ -1,6 +1,6 @@
-server:
-  jackson:
-    serialization.output: true
+spring:
+  profiles.active: dev
+  jackson.serialization.indent_output: true
 
 mybatis:
   configuration:
@@ -10,22 +10,6 @@ logging:
   level:
     com.patrykkosieradzki.todo: debug
 
-spring:
-  profiles.active: dev
-#
-#  mail:
-#    host: SMTP.office365.com
-#    username: ENC(3kgJyu6PoTk/Kfy0YHdWojEScWbBU5Pi6O8e3qrwnS+72iwTqB83RA==)
-#    password: ENC(PSq5a6TnJLwKznCLqIJo7XPSYSuo0im3)
-#    port: 587
-#    properties:
-#      mail:
-#        smtp:
-#          debug: true
-#          auth: true
-#          starttls: true
-#        transport.protocol: smtp
-#    test-connection: false
 
 mail:
   host: SMTP.office365.com
