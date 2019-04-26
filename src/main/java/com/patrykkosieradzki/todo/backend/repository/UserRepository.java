@@ -8,26 +8,30 @@ import java.util.List;
 import java.util.Optional;
 
 @Mapper
-public interface UserRepository {
+public interface UserRepository extends MyBatisRepository<User, Long> {
 
+    String FIND_ACTIVATION_TOKEN_BY_ID =
+            "com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository.findById";
+
+    @Override
     @Select("SELECT * FROM users WHERE id = #{id}")
     @Results(value = {
             @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
-                    one = @One(select = "com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository.findById"))
+                    one = @One(select = FIND_ACTIVATION_TOKEN_BY_ID))
     })
     Optional<User> findById(@Param("id") Long id);
 
     @Select("SELECT * FROM users WHERE username = #{username}")
     @Results(value = {
             @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
-                    one = @One(select = "com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository.findById"))
+                    one = @One(select = FIND_ACTIVATION_TOKEN_BY_ID))
     })
     Optional<User> findByUsername(@Param("username") String username);
 
     @Select("SELECT * FROM users WHERE email = #{email}")
     @Results(value = {
             @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
-                    one = @One(select = "com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository.findById"))
+                    one = @One(select = FIND_ACTIVATION_TOKEN_BY_ID))
     })
     Optional<User> findByEmail(@Param("email") String email);
 
@@ -37,21 +41,23 @@ public interface UserRepository {
             "WHERE at.value = #{activationToken}")
     @Results(value = {
             @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
-                    one = @One(select = "com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository.findById"))
+                    one = @One(select = FIND_ACTIVATION_TOKEN_BY_ID))
     })
     Optional<User> findByActivationToken(@Param("activationToken") String activationToken);
 
+    @Override
     @Select("SELECT * FROM users")
     @Results(value = {
             @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
-            one = @One(select = "com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository.findById"))
+                    one = @One(select = FIND_ACTIVATION_TOKEN_BY_ID))
     })
     List<User> findAll();
 
+    @Override
     @Insert("INSERT INTO users(first_name, last_name, username, email, password, is_expired, is_locked, " +
             "is_credentials_expired, is_enabled, activation_token_id) " +
             "values (#{firstName}, #{lastName}, #{username}, #{email}, #{password}, #{isExpired}, #{isLocked}, " +
-            "#{isCredentialsExpired}, #{isEnabled}, #{activationToken.activationTokenId})")
+            "#{isCredentialsExpired}, #{isEnabled}, #{activationToken.id})")
     @SelectKey(statement = "SELECT LAST_INSERT_ID() as id", keyProperty = "id", before = false, resultType = Long.class)
     void save(User user);
 

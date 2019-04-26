@@ -1,6 +1,7 @@
 package com.patrykkosieradzki.todo.backend.service
 
 import com.patrykkosieradzki.todo.backend.entity.User
+import com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository
 import com.patrykkosieradzki.todo.backend.repository.UserRepository
 import org.springframework.security.crypto.password.PasswordEncoder
 import spock.lang.Specification
@@ -8,11 +9,11 @@ import spock.lang.Specification
 class UserServiceSpec extends Specification {
 
     private UserRepository userRepository = Mock(UserRepository)
-    private ActivationTokenService activationTokenService = Mock(ActivationTokenService)
+    private ActivationTokenRepository activationTokenRepository = Mock(ActivationTokenRepository)
     private PasswordEncoder passwordEncoder = Stub(PasswordEncoder)
 
     private UserService userService =
-            new UserService(userRepository, activationTokenService, passwordEncoder)
+            new UserService(userRepository, activationTokenRepository, passwordEncoder)
 
     def "find all should call user repository"() {
         when: "We call findAll()"

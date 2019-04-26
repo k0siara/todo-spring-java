@@ -2,27 +2,31 @@ package com.patrykkosieradzki.todo.backend.service;
 
 import com.helger.commons.annotation.VisibleForTesting;
 import com.patrykkosieradzki.todo.TodoAppConstants;
+import com.patrykkosieradzki.todo.app.HasLogger;
 import com.patrykkosieradzki.todo.backend.entity.ActivationToken;
 import com.patrykkosieradzki.todo.backend.entity.User;
 import com.patrykkosieradzki.todo.backend.mail.CustomEmailService;
 import com.patrykkosieradzki.todo.backend.mail.Email;
+import com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository;
 import com.patrykkosieradzki.todo.backend.repository.UserRepository;
 import com.patrykkosieradzki.todo.backend.service.util.FieldValueExists;
 import com.patrykkosieradzki.todo.backend.util.ServerUtils;
+import com.patrykkosieradzki.todo.backend.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
 @Service
-public class UserService implements FieldValueExists {
+public class UserService implements FieldValueExists, HasLogger {
 
     private UserRepository userRepository;
-    private ActivationTokenService activationTokenService;
+    private ActivationTokenRepository activationTokenRepository;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -32,9 +36,9 @@ public class UserService implements FieldValueExists {
     private TemplateEngine templateEngine; // TODO: 2019-04-23 remove field injections
 
     @Autowired
-    public UserService(UserRepository userRepository, ActivationTokenService activationTokenService, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, ActivationTokenRepository activationTokenRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.activationTokenService = activationTokenService;
+        this.activationTokenRepository = activationTokenRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -52,23 +56,32 @@ public class UserService implements FieldValueExists {
     }
 
     public void register(User user) {
-        ActivationToken activationToken = activationTokenService.create();
+        ActivationToken activationToken = createActivationToken();
         user.setActivationToken(activationToken);
 
-        encodePassword(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
-        sendAccountActivationEmail(user, activationToken);
+        sendAccountActivationEmail(user);
     }
 
-    private void encodePassword(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public ActivationToken createActivationToken() {
+        ActivationToken activationToken = new ActivationToken(TokenUtils.getRandomToken());
+        getLogger().debug("generated random activation token: " + activationToken);
+
+        activationToken.setExpiresAt(LocalDateTime.now().plusDays(7));
+        activationTokenRepository.save(activationToken);
+
+        getLogger().debug("inserted new activation token with id: " + activationToken.getId());
+
+        return activationTokenRepository.findById(activationToken.getId())
+                .orElseThrow(() -> new RuntimeException("ActivationToken not found"));
     }
 
-    private void sendAccountActivationEmail(User user, ActivationToken activationToken) {
+    private void sendAccountActivationEmail(User user) {
         Context context = new Context();
         context.setVariable("activation_link",
-                ServerUtils.getAddress() + TodoAppConstants.ACTIVATION_ENDPOINT + activationToken.getValue());
+                ServerUtils.getAddress() + TodoAppConstants.ACTIVATION_ENDPOINT + user.getActivationToken().getValue());
 
         String body = templateEngine.process("registration-email-template", context);
         emailService.sendMessage(new Email("todo.spring.java@outlook.com", user.getEmail(), TodoAppConstants.ACTIVATION_EMAIL_SUBJECT, body, true));

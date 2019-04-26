@@ -26,13 +26,18 @@ class UserRepositorySpec extends Specification {
         activationToken.expiresAt = LocalDateTime.now().plusDays(7)
         activationTokenRepository.save(activationToken)
 
-        user = new User()
-        user.firstName = "John"
-        user.lastName = "Doe"
-        user.username = "john_doe"
-        user.email = "john.doe@example.com"
-        user.password = "password"
+        user = new User("John", "Doe", "john_doe", "john.doe@example.com", "password")
         user.activationToken = activationToken
+    }
+
+    boolean equals(User u1, User u2) {
+        u1.id == u2.id
+        u1.firstName == u2.firstName
+        u1.lastName == u2.lastName
+        u1.username == u2.username
+        u1.password == u2.password
+        u1.email == u2.email
+//        u1.activationToken == u2.activationToken
     }
 
     def "find user by existing id"() {
@@ -44,7 +49,7 @@ class UserRepositorySpec extends Specification {
 
         then: "User is present"
         userFromRepo.isPresent()
-        user.id == userFromRepo.get().id
+        equals(userFromRepo.get(), user)
     }
 
     def "find user by non-existing id"() {
@@ -64,7 +69,7 @@ class UserRepositorySpec extends Specification {
 
         then: "User is present"
         userFromRepo.isPresent()
-        user.username == userFromRepo.get().username
+        equals(userFromRepo.get(), user)
     }
 
     def "find user by non-existing username"() {
@@ -84,7 +89,7 @@ class UserRepositorySpec extends Specification {
 
         then: "User is present"
         userFromRepo.present
-        user.email == userFromRepo.get().email
+        equals(userFromRepo.get(), user)
     }
 
     def "find user by non-existing email"() {
@@ -104,7 +109,7 @@ class UserRepositorySpec extends Specification {
 
         then: "User is present"
         userFromRepo.present
-        user.activationTokenId == activationToken.id
+        equals(userFromRepo.get(), user)
     }
 
     def "find user by non-existing activation token"() {
@@ -130,7 +135,7 @@ class UserRepositorySpec extends Specification {
 
         then: "First name is updated"
         userFromRepo.present
-        user.firstName == userFromRepo.get().firstName
+        equals(userFromRepo.get(), user)
     }
 
     def "exists by taken field name"() {

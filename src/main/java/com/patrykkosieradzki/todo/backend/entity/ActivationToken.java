@@ -1,21 +1,20 @@
 package com.patrykkosieradzki.todo.backend.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Data
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ActivationToken{
+@RequiredArgsConstructor
+public class ActivationToken extends AbstractEntity{
 
+    @NonNull
     private String value;
 
     private LocalDateTime expiresAt;
-
-    private Long id;
 
     private LocalDateTime createdAt;
 
