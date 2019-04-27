@@ -1,13 +1,14 @@
 package com.patrykkosieradzki.todo.api.controller;
 
 import com.patrykkosieradzki.todo.backend.dto.UserDTO;
-import com.patrykkosieradzki.todo.backend.entity.User;
 import com.patrykkosieradzki.todo.backend.mapper.UserMapper;
 import com.patrykkosieradzki.todo.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,7 +17,6 @@ public class UserController {
 
     private UserService userService;
     private UserMapper userMapper;
-
 
     @Autowired
     public UserController(UserService userService, UserMapper userMapper) {
