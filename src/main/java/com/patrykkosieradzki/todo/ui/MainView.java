@@ -35,6 +35,10 @@ public class MainView extends AbstractAppRouterLayout {
 
         appLayout.setBranding(image);
 
+        addMenuItem(menu, new AppLayoutMenuItem("REST API", e -> {
+            UI.getCurrent().getPage().executeJavaScript("window.open(" + AppConstants.SWAGGER_URL + ", \"_self\");");
+        }));
+
         addMenuItem(menu, new AppLayoutMenuItem("Settings"));
         addMenuItem(menu, new AppLayoutMenuItem("Logout", e ->
                 UI.getCurrent().getPage().executeJavaScript("location.assign('logout')")));

@@ -24,8 +24,6 @@ public class DashboardView extends VerticalLayout {
     public DashboardView(TodoLayout todoLayout) {
         this.todoLayout = todoLayout;
 
-
-
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
 
         Label header = new Label("TODO");
@@ -47,6 +45,7 @@ public class DashboardView extends VerticalLayout {
         add(todoLayout);
 
         Button deleteButton = new Button("Delete completed");
+        deleteButton.getStyle().set("color", "green");
         add(deleteButton);
 
     }

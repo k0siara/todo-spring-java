@@ -14,4 +14,7 @@ public class AppConstants {
     public static final String ACTIVATION_ADDRESS = ServerUtils.getAddress() + "/activate?token=";
     public static final String ACTIVATION_EMAIL_SUBJECT = "Welcome to Todo App";
 
+    public static final String SWAGGER_ENDPOINT = "/swagger-ui.html";
+    public static final String SWAGGER_URL = ServerUtils.getAddress() + SWAGGER_ENDPOINT;
+
 }
