@@ -1,7 +1,5 @@
 package com.patrykkosieradzki.todo.backend.repository;
 
-import org.apache.ibatis.annotations.SelectKey;
-
 import java.util.List;
 import java.util.Optional;
 

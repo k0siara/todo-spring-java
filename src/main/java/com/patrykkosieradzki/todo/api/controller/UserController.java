@@ -1,6 +1,8 @@
 package com.patrykkosieradzki.todo.api.controller;
 
+import com.patrykkosieradzki.todo.backend.dto.UserDTO;
 import com.patrykkosieradzki.todo.backend.entity.User;
+import com.patrykkosieradzki.todo.backend.mapper.UserMapper;
 import com.patrykkosieradzki.todo.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,26 +15,24 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
+    private UserMapper userMapper;
+
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userService.findAll();
+    public List<UserDTO> getAllUsers() {
+        return userMapper.usersToDtos(userService.findAll());
     }
 
     @GetMapping("/users/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userService.findById(id);
+    public UserDTO getUserById(@PathVariable Long id) {
+        return userMapper.userToDto(userService.findById(id));
     }
 
-    @PostMapping("/users")
-    public User addUser(@RequestBody @Valid User user) {
-        userService.save(user);
-        return user;
-    }
 
 }

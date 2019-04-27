@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class ActivationToken extends AbstractEntity{
+public class ActivationToken extends AbstractEntity {
 
     @NonNull
     private String value;
