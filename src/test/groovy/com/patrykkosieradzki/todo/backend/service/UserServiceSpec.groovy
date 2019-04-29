@@ -1,5 +1,6 @@
 package com.patrykkosieradzki.todo.backend.service
 
+import com.patrykkosieradzki.todo.backend.entity.ActivationToken
 import com.patrykkosieradzki.todo.backend.entity.User
 import com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository
 import com.patrykkosieradzki.todo.backend.repository.UserRepository
@@ -8,9 +9,9 @@ import spock.lang.Specification
 
 class UserServiceSpec extends Specification {
 
-    private UserRepository userRepository = Mock()
-    private ActivationTokenRepository activationTokenRepository = Mock()
-    private PasswordEncoder passwordEncoder = Stub(PasswordEncoder)
+    private UserRepository userRepository = Mock(UserRepository.class)
+    private ActivationTokenRepository activationTokenRepository = Mock(ActivationTokenRepository.class)
+    private PasswordEncoder passwordEncoder = Stub(PasswordEncoder.class)
 
     private UserService userService =
             new UserService(userRepository, activationTokenRepository, passwordEncoder)
@@ -59,14 +60,20 @@ class UserServiceSpec extends Specification {
     }
 
     def "register"() {
+
         given: "A user"
-        User user = Stub(User)
+        def user = Stub(User)
         user.password = "password"
+
+
+        userService.createActivationToken() >>> new ActivationToken()
 
         when:
         userService.register(user)
 
         then: "Password is encoded"
+
+
         //passwordEncoder.matches(user.password, "password")
     }
 

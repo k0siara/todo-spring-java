@@ -1,5 +1,6 @@
 package com.patrykkosieradzki.todo.backend.entity;
 
+import com.patrykkosieradzki.todo.backend.util.TokenUtils;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,6 +20,13 @@ public class ActivationToken extends AbstractEntity {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    public static ActivationToken create() {
+        ActivationToken activationToken = new ActivationToken();
+        activationToken.setValue(TokenUtils.getRandomToken());
+        activationToken.setExpiresAt(LocalDateTime.now().plusDays(7));
+        return activationToken;
+    }
 
 }
 

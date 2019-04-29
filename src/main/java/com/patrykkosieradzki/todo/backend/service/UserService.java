@@ -8,14 +8,11 @@ import com.patrykkosieradzki.todo.backend.mail.Email;
 import com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository;
 import com.patrykkosieradzki.todo.backend.repository.UserRepository;
 import com.patrykkosieradzki.todo.backend.service.util.FieldValueExists;
-import com.patrykkosieradzki.todo.backend.util.TokenUtils;
 import com.patrykkosieradzki.todo.ui.utils.ThymeleafUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.TemplateEngine;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -29,9 +26,6 @@ public class UserService implements FieldValueExists, HasLogger {
 
     @Autowired
     private EmailService emailService;
-
-    @Autowired
-    private TemplateEngine templateEngine; // TODO: 2019-04-23 remove field injections
 
     @Autowired
     public UserService(UserRepository userRepository, ActivationTokenRepository activationTokenRepository, PasswordEncoder passwordEncoder) {
@@ -64,10 +58,9 @@ public class UserService implements FieldValueExists, HasLogger {
     }
 
     public ActivationToken createActivationToken() {
-        ActivationToken activationToken = new ActivationToken(TokenUtils.getRandomToken());
+        ActivationToken activationToken = ActivationToken.create();
         getLogger().debug("generated random activation token: " + activationToken);
 
-        activationToken.setExpiresAt(LocalDateTime.now().plusDays(7));
         activationTokenRepository.save(activationToken);
 
         getLogger().debug("inserted new activation token with id: " + activationToken.getId());
