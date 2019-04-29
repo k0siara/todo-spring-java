@@ -1,7 +1,6 @@
 package com.patrykkosieradzki.todo.ui;
 
 import com.patrykkosieradzki.todo.AppConstants;
-import com.patrykkosieradzki.todo.ui.component.CustomCookieConsent;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AbstractAppRouterLayout;
@@ -25,7 +24,7 @@ public class MainView extends AbstractAppRouterLayout {
 //        confirmDialog.setCancelButtonTheme("raised tertiary");
 //
 //        getElement().appendChild(confirmDialog.getElement());
-        getElement().appendChild(new CustomCookieConsent().getElement());
+        //getElement().appendChild(new CustomCookieConsent().getElement());
     }
 
     @Override
@@ -34,6 +33,8 @@ public class MainView extends AbstractAppRouterLayout {
         image.setHeight("50px");
 
         appLayout.setBranding(image);
+
+
 
         addMenuItem(menu, new AppLayoutMenuItem("REST API", e -> {
             UI.getCurrent().getPage().executeJavaScript("window.open(" + AppConstants.SWAGGER_URL + ", \"_self\");");

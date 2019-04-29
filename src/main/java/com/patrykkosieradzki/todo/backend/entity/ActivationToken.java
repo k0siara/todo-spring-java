@@ -23,7 +23,7 @@ public class ActivationToken extends AbstractEntity {
 
     public static ActivationToken create() {
         ActivationToken activationToken = new ActivationToken();
-        activationToken.setValue(TokenUtils.getRandomToken());
+        activationToken.setValue(TokenUtils.getRandomToken(32));
         activationToken.setExpiresAt(LocalDateTime.now().plusDays(7));
         return activationToken;
     }

@@ -2,7 +2,6 @@ package com.patrykkosieradzki.todo.ui;
 
 import com.patrykkosieradzki.todo.AppConstants;
 import com.patrykkosieradzki.todo.app.security.SecurityUtils;
-import com.patrykkosieradzki.todo.ui.component.CustomCookieConsent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
@@ -18,7 +17,7 @@ public class LoginView extends VerticalLayout implements AfterNavigationObserver
     private LoginOverlay login;
 
     public LoginView() {
-        add(new CustomCookieConsent());
+        //add(new CustomCookieConsent());
 
         LoginI18n i18n = LoginI18n.createDefault();
         i18n.setHeader(new LoginI18n.Header());
