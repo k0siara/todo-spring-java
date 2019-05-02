@@ -69,4 +69,5 @@ public interface UserRepository extends MyBatisRepository<User, Long> {
 
     @Select("SELECT EXISTS(SELECT 1 FROM users WHERE ${fieldName} = #{value})")
     boolean existsByFieldName(@Param("fieldName") String fieldName, @Param("value") String value);
+
 }

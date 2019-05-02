@@ -1,6 +1,7 @@
 package com.patrykkosieradzki.todo.ui;
 
 import com.patrykkosieradzki.todo.AppConstants;
+import com.patrykkosieradzki.todo.app.security.SecurityUtils;
 import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AbstractAppRouterLayout;
@@ -24,7 +25,7 @@ public class MainView extends AbstractAppRouterLayout {
 //        confirmDialog.setCancelButtonTheme("raised tertiary");
 //
 //        getElement().appendChild(confirmDialog.getElement());
-        //getElement().appendChild(new CustomCookieConsent().getElement());
+//        getElement().appendChild(new CustomCookieConsent().getElement());
     }
 
     @Override
@@ -34,15 +35,22 @@ public class MainView extends AbstractAppRouterLayout {
 
         appLayout.setBranding(image);
 
-
-
         addMenuItem(menu, new AppLayoutMenuItem("REST API", e -> {
-            UI.getCurrent().getPage().executeJavaScript("window.open(" + AppConstants.SWAGGER_URL + ", \"_self\");");
+            UI.getCurrent().getPage().executeJavaScript("window.open(\"" + AppConstants.SWAGGER_URL + "\", \"_self\");");
         }));
 
-        addMenuItem(menu, new AppLayoutMenuItem("Settings"));
-        addMenuItem(menu, new AppLayoutMenuItem("Logout", e ->
-                UI.getCurrent().getPage().executeJavaScript("location.assign('logout')")));
+        if (SecurityUtils.isUserLoggedIn()) {
+            addMenuItem(menu, new AppLayoutMenuItem("Settings"));
+
+            addMenuItem(menu, new AppLayoutMenuItem("Logout", e ->
+                    UI.getCurrent().getPage().executeJavaScript("location.assign('logout')")));
+        } else {
+            addMenuItem(menu, new AppLayoutMenuItem("Login", e ->
+                    UI.getCurrent().getPage().executeJavaScript("location.assign('login')")));
+        }
+
+
+
 
 //        addMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.EDIT.create(), "tytul create"));
 

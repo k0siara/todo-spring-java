@@ -17,7 +17,7 @@ public class LoginView extends VerticalLayout implements AfterNavigationObserver
     private LoginOverlay login;
 
     public LoginView() {
-        //add(new CustomCookieConsent());
+//        add(new CustomCookiewConsent());
 
         LoginI18n i18n = LoginI18n.createDefault();
         i18n.setHeader(new LoginI18n.Header());
