@@ -1,32 +1,31 @@
 package com.patrykkosieradzki.todo.ui;
 
+import com.patrykkosieradzki.todo.AppConstants;
 import com.patrykkosieradzki.todo.backend.entity.Todo;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.router.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @HtmlImport("styles/shared-styles.html")
-@Route(value = "dashboard", layout = MainView.class)
+@Route(value = AppConstants.PAGE_DASHBOARD, layout = MainView.class)
 @RouteAlias(value = "", layout = MainView.class)
 @PageTitle("Dashboard Todo app")
-public class DashboardView extends VerticalLayout {
+public class DashboardView extends VerticalLayout implements HasUrlParameter<Long> {
 
-    private TodoList todoList = new TodoList();
+    private TodoList todoList;
 
-    public DashboardView() {
+
+    @Autowired
+    public DashboardView(TodoList todoList) {
+        this.todoList = todoList;
+
         init();
     }
 
@@ -50,46 +49,58 @@ public class DashboardView extends VerticalLayout {
     private void addForm() {
         HorizontalLayout formLayout = new HorizontalLayout();
         formLayout.setWidth("60%");
+        add(formLayout);
 
         TextField taskField = new TextField();
+        taskField.focus();
+
         Button addButton = new Button("Add");
+        addButton.addClickShortcut(Key.ENTER);
 
         addButton.addClickListener(event -> {
             if (taskField.isEmpty()) {
                 Notification.show("Task cannot be empty");
 
             } else {
-                todoList.addTodo(new Todo(taskField.getValue(), false));
+                todoList.addTodo(new Todo(taskField.getValue()));
                 taskField.setValue("");
                 taskField.focus();
             }
-
         });
 
         formLayout.add(taskField, addButton);
         formLayout.expand(taskField);
+    }
 
-        add(formLayout);
-
+    private void addTodoList() {
         add(todoList);
+    }
 
+    private void addActionButtons() {
         Button deleteButton = new Button("Delete completed");
         deleteButton.getStyle().set("color", "green");
         add(deleteButton);
 
         deleteButton.addClickListener(event -> {
-            todoList.deleteCompleted();
+//            todoList.deleteCompleted();
         });
-
-        addButton.addClickShortcut(Key.ENTER);
-        taskField.focus();
     }
 
-    private void addTodoList() {
+    @Override
+    public void setParameter(BeforeEvent event, @OptionalParameter Long todoId) {
+        if (todoId != null) {
+//            todoEditForm.setTodo(todoId);
+//            dialog.setOpened(true);
+        }
     }
 
-    private void addActionButtons() {
-    }
-
-
+//    @Override
+//    public void onTodoChanged(Todo todo) {
+//
+//    }
+//
+//    @Override
+//    public void onTodoEditClick(Todo todo) {
+//        UI.getCurrent().navigate(AppConstants.PAGE_DASHBOARD + "/" + todo.getId());
+//    }
 }

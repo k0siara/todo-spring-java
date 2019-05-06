@@ -1,5 +1,6 @@
 package com.patrykkosieradzki.todo.api.controller;
 
+import com.patrykkosieradzki.todo.app.security.CurrentUser;
 import com.patrykkosieradzki.todo.backend.dto.UserDTO;
 import com.patrykkosieradzki.todo.backend.mapper.UserMapper;
 import com.patrykkosieradzki.todo.backend.service.UserService;
@@ -17,6 +18,9 @@ public class UserController {
 
     private UserService userService;
     private UserMapper userMapper;
+
+    @Autowired
+    CurrentUser currentUser;
 
     @Autowired
     public UserController(UserService userService, UserMapper userMapper) {

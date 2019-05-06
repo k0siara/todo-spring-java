@@ -19,7 +19,7 @@ create table users
     is_locked              boolean             not null default false,
     is_credentials_expired boolean             not null default false,
     is_enabled             boolean             not null default false,
-    activation_token_id    bigint              unique not null,
+    activation_token_id    bigint unique       not null,
     created_at             timestamp           not null default current_timestamp,
     updated_at             timestamp           not null default current_timestamp,
 
@@ -43,4 +43,15 @@ create table user_roles
     foreign key (user_id) references users (id),
     foreign key (role_id) references roles (id),
     primary key (user_id, role_id)
+);
+
+create table todos
+(
+    id        bigserial primary key,
+    text      varchar(255) not null,
+    user_id   bigint       not null,
+    is_done   boolean      not null default false,
+    timestamp timestamp    not null default current_timestamp,
+
+    foreign key (user_id) references users (id)
 );
