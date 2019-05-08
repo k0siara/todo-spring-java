@@ -12,21 +12,28 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 
 public class TodoLayout extends HorizontalLayout {
 
-    private final Checkbox isDone;
-    private final TextField text;
-    private final Button edit;
+    private Checkbox isDone = new Checkbox();
+    private TextField text = new TextField();
+
+    private Todo todo;
+    private TodoListener todoListener;
 
     public TodoLayout(Todo todo, TodoListener todoListener) {
-        isDone = new Checkbox();
+        this.todo = todo;
+        this.todoListener = todoListener;
 
-        text = new TextField();
+        init();
+    }
+
+    private void init() {
         text.setValueChangeMode(ValueChangeMode.ON_BLUR);
         text.setReadOnly(true);
 
-        edit = new Button(new Icon(VaadinIcon.EDIT), e -> todoListener.onTodoEditClick(todo));
+        Button edit = new Button(new Icon(VaadinIcon.EDIT), e -> todoListener.onTodoEditClick(todo));
 
         Binder<Todo> binder = new Binder<>(Todo.class);
         binder.bindInstanceFields(this);
+        binder.forField(isDone).bind(Todo::isDone, Todo::setDone);
         binder.setBean(todo);
 
         add(isDone, text, edit);

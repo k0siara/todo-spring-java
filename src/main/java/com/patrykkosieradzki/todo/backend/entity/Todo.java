@@ -22,4 +22,5 @@ public class Todo extends AbstractEntity {
         super(id);
         this.text = text;
     }
+
 }

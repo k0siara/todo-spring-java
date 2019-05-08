@@ -35,4 +35,17 @@ public class TodoService {
     public List<Todo> findAllByUser(User user) {
         return todoRepository.findAllByUser(user);
     }
+
+    public Todo update(Todo todo) {
+        todoRepository.update(todo);
+        return findById(todo.getId());
+    }
+
+    public void deleteByDone(User user, boolean done) {
+        todoRepository.deleteByDone(user, done);
+    }
+
+    public void deleteById(Long id) {
+        todoRepository.deleteById(id);
+    }
 }

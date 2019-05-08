@@ -81,9 +81,7 @@ public class DashboardView extends VerticalLayout implements HasUrlParameter<Lon
         deleteButton.getStyle().set("color", "green");
         add(deleteButton);
 
-        deleteButton.addClickListener(event -> {
-//            todoList.deleteCompleted();
-        });
+        deleteButton.addClickListener(event -> todoList.deleteCompleted());
     }
 
     @Override

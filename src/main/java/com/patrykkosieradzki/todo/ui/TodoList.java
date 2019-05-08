@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @SpringComponent
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -57,7 +58,7 @@ public class TodoList extends VerticalLayout implements TodoListener, TodoEditFo
 
     void addTodo(Todo todo) {
         if (!SecurityUtils.isUserLoggedIn()) {
-            todo.setId(Long.valueOf(todos.size() + 1));
+            todo.setId((long) (todos.size() + 1));
             todo.setTimestamp(LocalDateTime.now());
         } else {
             todo.setUserId(currentUser.getUser().getId());
@@ -70,9 +71,19 @@ public class TodoList extends VerticalLayout implements TodoListener, TodoEditFo
 
     @Override
     public void onTodoChanged(Todo todo) {
-        Todo t = todos.stream().filter(t1 -> t1.getId().equals(todo.getId())).findFirst().get();
-        t.setText(todo.getText());
-        t.setDone(todo.isDone());
+        if (SecurityUtils.isUserLoggedIn()) {
+            todoService.update(todo);
+        } else {
+            int index = IntStream.range(0, todos.size())
+                    .filter(i -> todos.get(i).getId().equals(todo.getId()))
+                    .findFirst()
+                    .orElse(-1);
+
+            todos.remove(index);
+            todos.add(index, todo);
+        }
+
+        update();
     }
 
     @Override
@@ -81,27 +92,32 @@ public class TodoList extends VerticalLayout implements TodoListener, TodoEditFo
         dialog.setOpened(true);
     }
 
+    @Override
+    public void onSaveClick(Todo todo) {
+        onTodoChanged(todo);
+        dialog.setOpened(false);
+    }
+
     public void deleteCompleted() {
         if (!SecurityUtils.isUserLoggedIn()) {
             todos.removeIf(Todo::isDone);
+        } else {
+            todoService.deleteByDone(currentUser.getUser(), true);
         }
 
-        //repository.deleteByDone(true);
-
         update();
-    }
-
-    @Override
-    public void onSaveClick(Todo todo) {
-
     }
 
     @Override
     public void onDeleteClick(Todo todo) {
+        if (!SecurityUtils.isUserLoggedIn()) {
+            todos.remove(todo);
+        } else {
+            todoService.deleteById(todo.getId());
+        }
+
         dialog.setOpened(false);
-
-        todos.remove(todo);
-
         update();
     }
+
 }

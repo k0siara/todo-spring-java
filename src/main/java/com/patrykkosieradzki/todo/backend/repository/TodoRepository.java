@@ -2,10 +2,7 @@ package com.patrykkosieradzki.todo.backend.repository;
 
 import com.patrykkosieradzki.todo.backend.entity.Todo;
 import com.patrykkosieradzki.todo.backend.entity.User;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,4 +23,13 @@ public interface TodoRepository {
 
     @Select("SELECT * FROM todos WHERE user_id = #{id}")
     List<Todo> findAllByUser(User user);
+
+    @Update("UPDATE todos SET text = #{text}, is_done = #{isDone}, timestamp = #{timestamp} WHERE id = #{id}")
+    void update(Todo todo);
+
+    @Delete("DELETE todos WHERE user_id = #{userId} AND is_done = #{done}")
+    void deleteByDone(User user, boolean done);
+
+    @Delete("DELETE todos WHERE id = #{id}")
+    void deleteById(Long id);
 }
