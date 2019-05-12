@@ -2,10 +2,10 @@ package com.patrykkosieradzki.todo.api.config;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import com.patrykkosieradzki.todo.AppConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -34,11 +34,11 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Todo API")
-                .description("REST API for Todo App")
-                .contact(new Contact("Patryk Kosieradzki",
-                        "http://patrykkosieradzki.com",
-                        "patryk.kosieradzki@gmail.com"))
+                .title(AppConstants.SWAGGER_API_INFO_TITLE)
+                .description(AppConstants.SWAGGER_API_INFO_DESCRIPTION)
+                .contact(new Contact(AppConstants.DEVELOPER_NAME,
+                        AppConstants.DEVELOPER_WEBSITE_URL,
+                        AppConstants.DEVELPER_EMAIL))
                 .version("1.0")
                 .build();
     }

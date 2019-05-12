@@ -50,7 +50,7 @@ public class TodoList extends VerticalLayout implements TodoListener, TodoEditFo
         removeAll();
 
         if (SecurityUtils.isUserLoggedIn()) {
-            todos = todoService.findAllByUser(currentUser.getUser());
+            todos = todoService.findAllByUserId(currentUser.getUser().getId());
         }
 
         todos.forEach(todo -> add(new TodoLayout(todo, this)));

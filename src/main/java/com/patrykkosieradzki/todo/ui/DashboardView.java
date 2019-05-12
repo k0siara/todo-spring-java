@@ -10,17 +10,18 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.router.*;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteAlias;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @HtmlImport("styles/shared-styles.html")
 @Route(value = AppConstants.PAGE_DASHBOARD, layout = MainView.class)
 @RouteAlias(value = "", layout = MainView.class)
 @PageTitle("Dashboard Todo app")
-public class DashboardView extends VerticalLayout implements HasUrlParameter<Long> {
+public class DashboardView extends VerticalLayout {
 
     private TodoList todoList;
-
 
     @Autowired
     public DashboardView(TodoList todoList) {
@@ -42,7 +43,7 @@ public class DashboardView extends VerticalLayout implements HasUrlParameter<Lon
     }
 
     private void addHeader() {
-        Label header = new Label("TODO");
+        Label header = new Label("ADD TODOs");
         add(header);
     }
 
@@ -84,21 +85,4 @@ public class DashboardView extends VerticalLayout implements HasUrlParameter<Lon
         deleteButton.addClickListener(event -> todoList.deleteCompleted());
     }
 
-    @Override
-    public void setParameter(BeforeEvent event, @OptionalParameter Long todoId) {
-        if (todoId != null) {
-//            todoEditForm.setTodo(todoId);
-//            dialog.setOpened(true);
-        }
-    }
-
-//    @Override
-//    public void onTodoChanged(Todo todo) {
-//
-//    }
-//
-//    @Override
-//    public void onTodoEditClick(Todo todo) {
-//        UI.getCurrent().navigate(AppConstants.PAGE_DASHBOARD + "/" + todo.getId());
-//    }
 }

@@ -2,7 +2,6 @@ package com.patrykkosieradzki.todo.app;
 
 import com.patrykkosieradzki.todo.backend.util.ServerUtils;
 import com.patrykkosieradzki.todo.ui.utils.ThymeleafUtils;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -27,7 +26,7 @@ public class ApplicationContextProvider implements ApplicationContextAware {
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext context) throws BeansException {
+    public void setApplicationContext(ApplicationContext context) {
         ApplicationContextProvider.context = context;
     }
 

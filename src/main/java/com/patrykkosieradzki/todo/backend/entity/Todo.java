@@ -2,7 +2,6 @@ package com.patrykkosieradzki.todo.backend.entity;
 
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data

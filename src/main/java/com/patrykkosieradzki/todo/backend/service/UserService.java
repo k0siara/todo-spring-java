@@ -59,11 +59,11 @@ public class UserService implements FieldValueExists, HasLogger {
 
     public ActivationToken createActivationToken() {
         ActivationToken activationToken = ActivationToken.create();
-        getLogger().debug("generated random activation token: " + activationToken);
+        getLogger().debug("generated random activation token: {}", activationToken);
 
         activationTokenRepository.save(activationToken);
 
-        getLogger().debug("inserted new activation token with id: " + activationToken.getId());
+        getLogger().debug("inserted new activation token with id: {}", activationToken.getId());
 
         return activationTokenRepository.findById(activationToken.getId())
                 .orElseThrow(() -> new RuntimeException("ActivationToken not found"));

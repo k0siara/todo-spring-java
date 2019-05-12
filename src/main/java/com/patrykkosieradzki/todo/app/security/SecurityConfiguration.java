@@ -1,12 +1,9 @@
 package com.patrykkosieradzki.todo.app.security;
 
-import com.patrykkosieradzki.todo.backend.entity.User;
-import com.patrykkosieradzki.todo.backend.repository.UserRepository;
+import com.patrykkosieradzki.todo.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -66,10 +63,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                     .exceptionHandling().authenticationEntryPoint(delegatingAuthenticationEntryPoint())
                 .and()
-                    .formLogin().loginPage("/login").permitAll().loginProcessingUrl("/login").failureUrl("/login?error")
+                    .formLogin().loginPage(AppConstants.LOGIN_URL).permitAll().loginProcessingUrl(AppConstants.LOGIN_URL).failureUrl(AppConstants.LOGIN_FAILURE_URL)
                     .successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
                 .and()
-                    .logout().logoutSuccessUrl("/");
+                    .logout().logoutSuccessUrl(AppConstants.ROOT_URL);
     }
 
     @Override

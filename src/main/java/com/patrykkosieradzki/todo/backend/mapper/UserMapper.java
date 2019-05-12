@@ -1,6 +1,5 @@
 package com.patrykkosieradzki.todo.backend.mapper;
 
-import com.patrykkosieradzki.todo.backend.dto.NewUserDTO;
 import com.patrykkosieradzki.todo.backend.dto.UserDTO;
 import com.patrykkosieradzki.todo.backend.entity.User;
 import com.patrykkosieradzki.todo.backend.service.UserService;
@@ -12,10 +11,14 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public abstract class UserMapper {
 
-    @Autowired
     private UserService userService;
 
-    public User userDtoToEntity(UserDTO userDTO) {
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    public User toEntity(UserDTO userDTO) {
         if ( userDTO == null ) {
             return null;
         }
@@ -23,26 +26,10 @@ public abstract class UserMapper {
         return userService.findById(userDTO.getId());
     }
 
-    public abstract List<User> userDtosToEntities(List<UserDTO> userDTOs);
+    public abstract UserDTO toDto(User user);
 
-    public abstract UserDTO userToDto(User user);
+    public abstract List<UserDTO> toDto(List<User> users);
 
-    public abstract List<UserDTO> usersToDtos(List<User> users);
-
-
-    public User newUserDtoToEntity(NewUserDTO newUserDTO) {
-        if ( newUserDTO == null ) {
-            return null;
-        }
-
-        return userService.findById(newUserDTO.getId());
-    }
-
-    public abstract List<User> newUserDtosToEntities(List<NewUserDTO> newUserDTOs);
-
-    public abstract NewUserDTO userToNewUserDto(User user);
-
-    public abstract List<NewUserDTO> usersToNewUserDtos(List<User> users);
 
 }
 

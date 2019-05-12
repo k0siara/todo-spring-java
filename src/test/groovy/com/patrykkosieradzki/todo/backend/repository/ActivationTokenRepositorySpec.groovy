@@ -11,9 +11,9 @@ import java.time.LocalDateTime
 class ActivationTokenRepositorySpec extends Specification {
 
     @Autowired
-    private ActivationTokenRepository activationTokenRepository;
+    private ActivationTokenRepository activationTokenRepository
 
-    private ActivationToken activationToken;
+    private ActivationToken activationToken
 
     void setup() {
         activationToken = new ActivationToken()

@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO extends AbstactDTO {
+public class UserDTO extends AbstractDTO {
 
     private String firstName;
 

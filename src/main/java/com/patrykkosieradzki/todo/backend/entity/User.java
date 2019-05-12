@@ -35,7 +35,8 @@ public class User extends AbstractEntity {
     private String email;
 
     @NonNull
-    @Password(message = "Password has to be at least 8 characters long...") // TODO: 19-Apr-19 add better message
+    @Password(message = "Password has to be at least 8 characters long, contain at least one uppercase character, " +
+            "one lowercase character, one digit, one special character and no whitespaces")
     @NotEmpty(message = "Password can't be empty")
     private String password;
 

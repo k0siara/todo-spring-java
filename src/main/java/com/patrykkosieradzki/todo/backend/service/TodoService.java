@@ -32,8 +32,8 @@ public class TodoService {
         return findById(todo.getId());
     }
 
-    public List<Todo> findAllByUser(User user) {
-        return todoRepository.findAllByUser(user);
+    public List<Todo> findAllByUserId(Long userId) {
+        return todoRepository.findAllByUserId(userId);
     }
 
     public Todo update(Todo todo) {

@@ -1,6 +1,6 @@
 package com.patrykkosieradzki.todo.backend.service
 
-import com.patrykkosieradzki.todo.backend.entity.ActivationToken
+
 import com.patrykkosieradzki.todo.backend.entity.User
 import com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository
 import com.patrykkosieradzki.todo.backend.repository.UserRepository
@@ -59,22 +59,22 @@ class UserServiceSpec extends Specification {
         0 * _._
     }
 
-    def "register"() {
-
-        given: "A user"
-        def user = Stub(User)
-        user.password = "password"
-
-
-        userService.createActivationToken() >>> new ActivationToken()
-
-        when:
-        userService.register(user)
-
-        then: "Password is encoded"
-
-
-        //passwordEncoder.matches(user.password, "password")
-    }
+//    def "register"() {
+//
+//        given: "A user"
+//        def user = Stub(User)
+//        user.password = "password"
+//
+//
+//        userService.createActivationToken() >>> new ActivationToken()
+//
+//        when:
+//        userService.register(user)
+//
+//        then: "Password is encoded"
+//
+//
+//        //passwordEncoder.matches(user.password, "password")
+//    }
 
 }
