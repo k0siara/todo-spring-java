@@ -23,6 +23,9 @@ class TodoLayoutSpec extends Specification {
         todoLayout.text.readOnly
 
         todoLayout.text.value == todo.text
+
+        todoLayout.todo == todo
+        todoLayout.todoListener == todoListener
     }
 
 
