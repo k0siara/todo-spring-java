@@ -9,7 +9,9 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import lombok.Getter;
 
+@Getter
 public class TodoLayout extends HorizontalLayout {
 
     private Checkbox isDone = new Checkbox();

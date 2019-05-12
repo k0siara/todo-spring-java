@@ -18,9 +18,7 @@ public class CurrentUserImpl implements CurrentUser {
     @Override
     public User getUser() {
         String username = SecurityUtils.getUsername();
-        User user = userRepository.findByUsername(username)
+        return userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User Not found by username"));
-
-        return user;
     }
 }

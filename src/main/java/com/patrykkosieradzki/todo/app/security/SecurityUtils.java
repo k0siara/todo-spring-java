@@ -27,7 +27,7 @@ public class SecurityUtils implements HasLogger {
             UserDetails userDetails = (UserDetails) context.getAuthentication().getPrincipal();
             String username = userDetails.getUsername();
 
-            logger.debug("Currently logged in username: " + username);
+            logger.debug("Currently logged in username: {}", username);
             return username;
         }
 

@@ -1,5 +1,6 @@
 package com.patrykkosieradzki.todo.backend.repository;
 
+import com.patrykkosieradzki.todo.AppConstants;
 import com.patrykkosieradzki.todo.backend.entity.ActivationToken;
 import com.patrykkosieradzki.todo.backend.entity.User;
 import org.apache.ibatis.annotations.*;
@@ -10,28 +11,25 @@ import java.util.Optional;
 @Mapper
 public interface UserRepository extends MyBatisRepository<User, Long> {
 
-    String FIND_ACTIVATION_TOKEN_BY_ID =
-            "com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository.findById";
-
     @Override
     @Select("SELECT * FROM users WHERE id = #{id}")
     @Results(value = {
             @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
-                    one = @One(select = FIND_ACTIVATION_TOKEN_BY_ID))
+                    one = @One(select = AppConstants.FIND_ACTIVATION_TOKEN_BY_ID_PATH))
     })
     Optional<User> findById(@Param("id") Long id);
 
     @Select("SELECT * FROM users WHERE username = #{username}")
     @Results(value = {
             @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
-                    one = @One(select = FIND_ACTIVATION_TOKEN_BY_ID))
+                    one = @One(select = AppConstants.FIND_ACTIVATION_TOKEN_BY_ID_PATH))
     })
     Optional<User> findByUsername(@Param("username") String username);
 
     @Select("SELECT * FROM users WHERE email = #{email}")
     @Results(value = {
             @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
-                    one = @One(select = FIND_ACTIVATION_TOKEN_BY_ID))
+                    one = @One(select = AppConstants.FIND_ACTIVATION_TOKEN_BY_ID_PATH))
     })
     Optional<User> findByEmail(@Param("email") String email);
 
@@ -41,7 +39,7 @@ public interface UserRepository extends MyBatisRepository<User, Long> {
             "WHERE at.value = #{activationToken}")
     @Results(value = {
             @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
-                    one = @One(select = FIND_ACTIVATION_TOKEN_BY_ID))
+                    one = @One(select = AppConstants.FIND_ACTIVATION_TOKEN_BY_ID_PATH))
     })
     Optional<User> findByActivationToken(@Param("activationToken") String activationToken);
 
@@ -49,7 +47,7 @@ public interface UserRepository extends MyBatisRepository<User, Long> {
     @Select("SELECT * FROM users")
     @Results(value = {
             @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
-                    one = @One(select = FIND_ACTIVATION_TOKEN_BY_ID))
+                    one = @One(select = AppConstants.FIND_ACTIVATION_TOKEN_BY_ID_PATH))
     })
     List<User> findAll();
 

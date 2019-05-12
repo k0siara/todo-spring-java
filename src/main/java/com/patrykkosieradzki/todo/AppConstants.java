@@ -30,4 +30,7 @@ public class AppConstants {
     public static final String SWAGGER_ENDPOINT = "/swagger-ui.html";
     public static final String SWAGGER_URL = ServerUtils.getAddress() + SWAGGER_ENDPOINT;
 
+    public static final String FIND_ACTIVATION_TOKEN_BY_ID_PATH =
+            "com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository.findById";
+
 }
