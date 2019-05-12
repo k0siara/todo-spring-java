@@ -1,17 +1,13 @@
 package com.patrykkosieradzki.todo.backend.mapper
 
 import com.patrykkosieradzki.todo.backend.entity.Todo
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 
 import java.time.LocalDateTime
 
-@SpringBootTest
 class TodoMapperSpec extends Specification {
 
-    @Autowired
-    private TodoMapper todoMapper
+    def todoMapper = new TodoMapperImpl()
 
     def "todo is converted to dto properly"() {
         given: 'A todo is created'

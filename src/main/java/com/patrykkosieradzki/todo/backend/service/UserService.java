@@ -47,7 +47,7 @@ public class UserService implements FieldValueExists, HasLogger {
                 .orElseThrow(() -> new RuntimeException("User not found by activationToken"));
     }
 
-    public void register(User user) {
+    public User register(User user) {
         ActivationToken activationToken = createActivationToken();
         user.setActivationToken(activationToken);
 
@@ -55,6 +55,7 @@ public class UserService implements FieldValueExists, HasLogger {
         userRepository.save(user);
 
         sendAccountActivationEmail(user);
+        return user;
     }
 
     public ActivationToken createActivationToken() {

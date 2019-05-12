@@ -3,10 +3,8 @@ package com.patrykkosieradzki.todo.backend.mapper
 import com.patrykkosieradzki.todo.backend.dto.UserDTO
 import com.patrykkosieradzki.todo.backend.entity.User
 import com.patrykkosieradzki.todo.backend.service.UserService
-import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 
-@SpringBootTest
 class UserMapperSpec extends Specification {
 
     def userService = Mock(UserService)
