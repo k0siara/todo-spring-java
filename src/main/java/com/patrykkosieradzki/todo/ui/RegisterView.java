@@ -92,10 +92,10 @@ public class RegisterView extends VerticalLayout {
             binder.validate();
 
             if (binder.isValid()) {
-                Notification.show("zarejestrowano");
+                Notification.show("Successfully registered!");
                 userService.register(user);
             } else {
-                Notification.show("popraw dane");
+                Notification.show("Please correct your data");
             }
         });
 

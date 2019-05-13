@@ -22,7 +22,7 @@ class UserRepositorySpec extends Specification {
 
     void setup() {
         activationToken = new ActivationToken()
-        activatrionToken.value = "qwertyuiop"
+        activationToken.value = "qwertyuiop"
         activationToken.expiresAt = LocalDateTime.now().plusDays(7)
         activationTokenRepository.save(activationToken)
 
