@@ -56,7 +56,7 @@ public interface UserRepository extends MyBatisRepository<User, Long> {
             "is_credentials_expired, is_enabled, activation_token_id) " +
             "values (#{firstName}, #{lastName}, #{username}, #{email}, #{password}, #{isExpired}, #{isLocked}, " +
             "#{isCredentialsExpired}, #{isEnabled}, #{activationToken.id})")
-    @SelectKey(statement = "SELECT LAST_INSERT_ID() as id", keyProperty = "id", before = false, resultType = Long.class)
+    @SelectKey(statement = "SELECT SCOPE_IDENTITY() as id", keyProperty = "id", before = false, resultType = Long.class)
     void save(User user);
 
     @Update("UPDATE users SET first_name = #{firstName}, last_name = #{lastName}, username = #{username}, " +

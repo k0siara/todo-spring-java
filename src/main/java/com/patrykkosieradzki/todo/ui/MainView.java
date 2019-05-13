@@ -24,12 +24,15 @@ public class MainView extends AbstractAppRouterLayout {
         appLayout.setBranding(image);
 
         addMenuItem(menu, new AppLayoutMenuItem("REST API", e ->
-                executeJavaScript("window.open(\"" + AppConstants.SWAGGER_URL + "\", \"_self\");")));
+                executeJavaScript("location.assign('" + AppConstants.SWAGGER_ENDPOINT + "')")));
 
         if (SecurityUtils.isUserLoggedIn()) {
             addMenuItem(menu, new AppLayoutMenuItem("Logout", e ->
                     executeJavaScript("location.assign('logout')")));
         } else {
+            addMenuItem(menu, new AppLayoutMenuItem("Register", e ->
+                    executeJavaScript("location.assign('register')")));
+
             addMenuItem(menu, new AppLayoutMenuItem("Login", e ->
                     executeJavaScript("location.assign('login')")));
         }

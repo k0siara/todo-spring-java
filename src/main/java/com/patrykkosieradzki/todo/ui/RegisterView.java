@@ -5,6 +5,7 @@ import com.patrykkosieradzki.todo.backend.entity.User;
 import com.patrykkosieradzki.todo.backend.service.UserService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -48,6 +49,16 @@ public class RegisterView extends VerticalLayout {
     }
 
     private void createLayout() {
+        setSizeFull();
+        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
+
+
+
+        Image image = new Image("https://todogroup.org/img/logo.svg", "Logo");
+        image.setHeight("200px");
+
+        add(image);
+
         Binder.Binding<User, String> firstNameBinding = binder.forField(firstName).bind("firstName");
         firstName.addValueChangeListener(event -> firstNameBinding.validate());
         firstName.setAutoselect(true);
@@ -90,8 +101,9 @@ public class RegisterView extends VerticalLayout {
 
         HorizontalLayout names = new HorizontalLayout(firstName, lastName);
         HorizontalLayout usernameAndEmail = new HorizontalLayout(username, email);
+        HorizontalLayout passwords = new HorizontalLayout(password, confirmPassword);
 
-        add(names, usernameAndEmail, password, confirmPassword);
+        add(names, usernameAndEmail, passwords);
         add(registerButton);
     }
 

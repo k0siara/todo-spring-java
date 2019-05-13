@@ -18,7 +18,7 @@ public interface TodoRepository {
 
     @Insert("INSERT INTO todos(text, user_id) " +
             "values (#{text}, #{userId})")
-    @SelectKey(statement = "SELECT LAST_INSERT_ID() as id", keyProperty = "id", before = false, resultType = Long.class)
+    @SelectKey(statement = "SELECT SCOPE_IDENTITY() as id", keyProperty = "id", before = false, resultType = Long.class)
     void save(Todo todo);
 
     @Select("SELECT * FROM todos WHERE user_id = #{userId}")
