@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @RequiredArgsConstructor
 public abstract class AbstractEntity implements Serializable {
 

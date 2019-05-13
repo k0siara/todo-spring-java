@@ -1,6 +1,6 @@
 package com.patrykkosieradzki.todo.backend.service
 
-
+import com.patrykkosieradzki.todo.backend.entity.ActivationToken
 import com.patrykkosieradzki.todo.backend.entity.User
 import com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository
 import com.patrykkosieradzki.todo.backend.repository.UserRepository
@@ -51,6 +51,37 @@ class UserServiceSpec extends Specification {
 
         when:
         userService.findById(1)
+
+        then:
+        RuntimeException exception = thrown()
+    }
+
+    def "find by activation token should return user if exists"() {
+        given:
+        def user = new User("John", "Doe", "jdoe", "jdoe@example.com", "password")
+        def activationToken = new ActivationToken("token")
+        user.id = 1
+        user.activationToken = activationToken
+
+        and:
+        userRepository.findByActivationToken(activationToken.value) >> Optional.of(user)
+
+        expect:
+        userService.findByActivationToken(activationToken.value) == user
+    }
+
+    def "find by activation token should throw exception when user is not found"() {
+        given:
+        def user = new User("John", "Doe", "jdoe", "jdoe@example.com", "password")
+        def activationToken = new ActivationToken("token")
+        user.id = 1
+        user.activationToken = activationToken
+
+        and:
+        userRepository.findByActivationToken(activationToken.value) >> Optional.ofNullable(null)
+
+        when:
+        userService.findByActivationToken(activationToken.value)
 
         then:
         RuntimeException exception = thrown()
@@ -119,6 +150,14 @@ class UserServiceSpec extends Specification {
 
         then:
         1 * userRepository.update(user)
+    }
+
+    def "field value exists test"() {
+        when:
+        userService.fieldValueExists(_ as String, _ as Object)
+
+        then:
+        1 * userRepository.existsByFieldName(_ as String, _ as String)
     }
 
 }
