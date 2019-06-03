@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -39,9 +40,16 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return badRequest().body("chujowe");
     }
 
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public ResponseEntity handleAccessDeniedException(Exception ex, WebRequest req) {
+        return status(HttpStatus.UNAUTHORIZED).body(
+                new ApiError(HttpStatus.UNAUTHORIZED.value(), "Requires authentication")
+        );
+    }
+
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity exception(Exception ex, WebRequest request) {
-        System.out.println("DUPSKO");
+    public ResponseEntity exception(Exception ex, WebRequest req) {
+        ex.printStackTrace();
         return status(HttpStatus.UNAUTHORIZED).build();
     }
 

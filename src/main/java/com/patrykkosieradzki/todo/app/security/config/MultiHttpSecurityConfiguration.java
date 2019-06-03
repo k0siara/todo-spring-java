@@ -76,7 +76,7 @@ public class MultiHttpSecurityConfiguration {
                     .and()
                         .antMatcher("/api/**")
                         .authorizeRequests()
-                        .antMatchers("/api/authorize").permitAll()
+                        .antMatchers("/api/**").permitAll()
                         .anyRequest().authenticated()
                     .and()
                         .addFilterBefore(new JwtTokenFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)

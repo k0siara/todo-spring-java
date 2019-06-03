@@ -1,7 +1,7 @@
 package com.patrykkosieradzki.todo.api.controller;
 
 import com.patrykkosieradzki.todo.api.entity.JwtAuthenticationRequest;
-import com.patrykkosieradzki.todo.api.entity.JwtTokenResponse;
+import com.patrykkosieradzki.todo.api.entity.JwtAuthenticationResponse;
 import com.patrykkosieradzki.todo.app.security.jwt.JwtTokenProvider;
 import com.patrykkosieradzki.todo.backend.entity.User;
 import com.patrykkosieradzki.todo.backend.service.UserService;
@@ -34,7 +34,7 @@ public class JwtController {
     }
 
     @PostMapping("/api/authorize")
-    public ResponseEntity<JwtTokenResponse> authorize(@RequestBody @Valid JwtAuthenticationRequest req) {
+    public ResponseEntity<JwtAuthenticationResponse> authorize(@RequestBody @Valid JwtAuthenticationRequest req) {
         String username = req.getUsername();
         String password = req.getPassword();
 
@@ -43,7 +43,7 @@ public class JwtController {
         User user = userService.findByUsername(username);
         String token = jwtTokenProvider.createToken(username, List.of("ROLE_ADMIN"));
 
-        return ok(new JwtTokenResponse(username, token));
+        return ok(new JwtAuthenticationResponse(username, token));
     }
 
 }

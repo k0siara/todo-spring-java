@@ -13,6 +13,6 @@ public class StringUtils {
         }
 
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(object);
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(object);
     }
 }

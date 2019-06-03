@@ -1,6 +1,8 @@
 package com.patrykkosieradzki.todo.app.security;
 
 
+import com.patrykkosieradzki.todo.api.exception.ApiError;
+import com.patrykkosieradzki.todo.app.StringUtils;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -14,11 +16,18 @@ public final class RestAuthenticationEntryPoint implements AuthenticationEntryPo
 
     @Override
     public void commence(
-            final HttpServletRequest request,
-            final HttpServletResponse response,
-            final AuthenticationException authException) throws IOException {
+            final HttpServletRequest req,
+            final HttpServletResponse res,
+            final AuthenticationException ex) throws IOException {
 
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+        //response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+
+        res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        res.setContentType("application/json");
+        res.getWriter().write(StringUtils.toJsonString(new ApiError(
+                HttpServletResponse.SC_UNAUTHORIZED,
+                "Unauthorized"
+        )));
     }
 
 }
