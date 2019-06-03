@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 @AllArgsConstructor
-public class CustomUserDetails implements UserDetails {
+public class UserDetailsImpl implements UserDetails {
 
     private User user;
 

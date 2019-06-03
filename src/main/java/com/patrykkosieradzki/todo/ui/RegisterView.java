@@ -52,8 +52,6 @@ public class RegisterView extends VerticalLayout {
         setSizeFull();
         setDefaultHorizontalComponentAlignment(Alignment.CENTER);
 
-
-
         Image image = new Image("https://todogroup.org/img/logo.svg", "Logo");
         image.setHeight("200px");
 

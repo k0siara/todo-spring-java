@@ -1,7 +1,7 @@
 package com.patrykkosieradzki.todo.api.controller;
 
 import com.patrykkosieradzki.todo.AppConstants;
-import com.patrykkosieradzki.todo.api.ApiInfo;
+import com.patrykkosieradzki.todo.api.entity.ApiInfo;
 import com.patrykkosieradzki.todo.backend.util.ServerUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

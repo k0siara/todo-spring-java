@@ -34,4 +34,9 @@ public class TodoController {
         return todoMapper.toDto(todoService.findById(id));
     }
 
+    @GetMapping("/users/{id}/todos")
+    public List<TodoDTO> getUserTodos(@PathVariable Long id) {
+        return todoMapper.toDto(todoService.findAllByUserId(id));
+    }
+
 }

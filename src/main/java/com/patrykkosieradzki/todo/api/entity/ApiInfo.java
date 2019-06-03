@@ -1,4 +1,4 @@
-package com.patrykkosieradzki.todo.api;
+package com.patrykkosieradzki.todo.api.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

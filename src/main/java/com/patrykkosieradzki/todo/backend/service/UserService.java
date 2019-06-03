@@ -10,6 +10,7 @@ import com.patrykkosieradzki.todo.backend.repository.UserRepository;
 import com.patrykkosieradzki.todo.backend.service.util.FieldValueExists;
 import com.patrykkosieradzki.todo.ui.utils.ThymeleafUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,7 @@ public class UserService implements FieldValueExists, HasLogger {
         this.activationTokenRepository = activationTokenRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -89,5 +91,10 @@ public class UserService implements FieldValueExists, HasLogger {
     @Override
     public boolean fieldValueExists(String fieldName, Object value) {
         return userRepository.existsByFieldName(fieldName, value.toString());
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Username " + username + "not found"));
     }
 }

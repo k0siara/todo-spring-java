@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
-public class CustomUserDetailsService implements UserDetailsService {
+@Service("userDetailsService")
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private UserRepository userRepository;
 
     @Autowired
-    public CustomUserDetailsService(UserRepository userRepository) {
+    public UserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
 
-        return new CustomUserDetails(
+        return new UserDetailsImpl(
                 optionalUserByUsername.orElseGet(optionalUserByEmail::get)
         );
     }

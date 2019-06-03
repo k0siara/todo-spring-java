@@ -1,5 +1,6 @@
 package com.patrykkosieradzki.todo.api
 
+import com.patrykkosieradzki.todo.api.entity.ApiInfo
 import spock.lang.Specification
 
 

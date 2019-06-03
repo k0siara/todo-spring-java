@@ -1,7 +1,7 @@
 package com.patrykkosieradzki.todo.api.controller
 
 
-import com.patrykkosieradzki.todo.app.security.SecurityConfiguration
+import com.patrykkosieradzki.todo.app.security.config.MultiHttpSecurityConfiguration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.context.annotation.Import
@@ -12,7 +12,7 @@ import spock.lang.Specification
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-@Import(SecurityConfiguration.class)
+@Import(MultiHttpSecurityConfiguration.class)
 @WebMvcTest(controllers = [ApiController])
 class ApiControllerSpec extends Specification {
 
