@@ -8,6 +8,8 @@ import lombok.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -40,6 +42,8 @@ public class User extends AbstractEntity {
             "one lowercase character, one digit, one special character and no whitespaces")
     @NotEmpty(message = "Password can't be empty")
     private String password;
+
+    private List<Todo> todos = new ArrayList<>();
 
     private boolean isExpired;
     private boolean isLocked;

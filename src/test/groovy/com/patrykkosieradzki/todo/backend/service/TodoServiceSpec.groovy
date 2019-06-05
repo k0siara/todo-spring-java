@@ -52,10 +52,10 @@ class TodoServiceSpec extends Specification {
 
     def "find all by user id returns list with user's todos"() {
         when:
-        todoService.findAllByUserId(1)
+        todoService.findAllByUserUsername(1)
 
         then:
-        1 * todoRepository.findAllByUserId(1)
+        1 * todoRepository.findAllByUserUsername(1)
     }
 
     def "update uses repository to update todo in database"() {

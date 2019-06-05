@@ -22,7 +22,7 @@ class TodoMapperSpec extends Specification {
         todo.text == todoDto.text
         todo.done == todoDto.done
         todo.timestamp == todoDto.timestamp
-        todo.userId == todoDto.userId
+        todo.userId == todoDto.username
     }
 
     def "todos are converted to dtos properly"() {
@@ -47,7 +47,7 @@ class TodoMapperSpec extends Specification {
             todo.text == todoDto.text
             todo.done == todoDto.done
             todo.timestamp == todoDto.timestamp
-            todo.userId == todoDto.userId
+            todo.userId == todoDto.username
         }
     }
 }

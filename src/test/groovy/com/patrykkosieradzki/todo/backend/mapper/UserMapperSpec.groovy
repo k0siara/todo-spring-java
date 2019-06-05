@@ -19,7 +19,7 @@ class UserMapperSpec extends Specification {
         def user = Stub(User.class)
 
         and:
-        def userDto = userMapper.toDto(user)
+        def userDto = userMapper.toUserDTOs(user)
 
         expect:
         user.firstName == userDto.firstName
@@ -37,7 +37,7 @@ class UserMapperSpec extends Specification {
         )
 
         and:
-        def userDtos = userMapper.toDto(users)
+        def userDtos = userMapper.toUserDTOs(users)
 
         expect:
         for (int i = 0; i < users.size(); i++) {

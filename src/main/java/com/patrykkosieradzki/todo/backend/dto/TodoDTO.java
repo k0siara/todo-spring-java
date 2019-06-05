@@ -16,5 +16,5 @@ public class TodoDTO extends AbstractDTO {
     private String text;
     private boolean isDone;
     private LocalDateTime timestamp;
-    private Long userId;
+    private String user;
 }

@@ -2,7 +2,6 @@ package com.patrykkosieradzki.todo.api.controller;
 
 import com.patrykkosieradzki.todo.app.security.CurrentUser;
 import com.patrykkosieradzki.todo.backend.dto.TodoDTO;
-import com.patrykkosieradzki.todo.backend.entity.Todo;
 import com.patrykkosieradzki.todo.backend.mapper.TodoMapper;
 import com.patrykkosieradzki.todo.backend.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +39,12 @@ public class TodoController {
 
     @GetMapping("/user/todos")
     public List<TodoDTO> getCurrentUserTodos() {
-        todoMapper.toDto(todoService.findAllByUserId(currentUser.getUser().getId()));
+        return todoMapper.toDto(todoService.findAllByUserUsername(currentUser.getUser().getUsername()));
     }
 
-    @GetMapping("/users/{id}/todos")
-    public List<TodoDTO> getUserTodos(@PathVariable Long id) {
-        return todoMapper.toDto(todoService.findAllByUserId(id));
+    @GetMapping("/users/{username}/todos")
+    public List<TodoDTO> getUserTodos(@PathVariable String username) {
+        return todoMapper.toDto(todoService.findAllByUserUsername(username));
     }
 
 }

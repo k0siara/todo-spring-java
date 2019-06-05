@@ -13,10 +13,11 @@ public class Todo extends AbstractEntity {
 
     @NonNull
     private String text;
+
     private boolean isDone = false;
     private LocalDateTime timestamp;
 
-    private Long userId;
+    private User user;
 
     public Todo(Long id, String text) {
         super(id);

@@ -33,4 +33,10 @@ public class AppConstants {
     public static final String FIND_ACTIVATION_TOKEN_BY_ID_PATH =
             "com.patrykkosieradzki.todo.backend.repository.ActivationTokenRepository.findById";
 
+    public static final String FIND_TODOS_BY_USER_USERNAME =
+            "com.patrykkosieradzki.todo.backend.repository.TodoRepository.findAllByUserUsername";
+
+    public static final String FIND_USER_BY_ID_PATH =
+            "com.patrykkosieradzki.todo.backend.repository.UserRepository.findById";
+
 }

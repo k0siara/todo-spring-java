@@ -1,11 +1,7 @@
 package com.patrykkosieradzki.todo.ui
 
 import com.patrykkosieradzki.todo.backend.entity.Todo
-import com.vaadin.flow.data.value.ValueChangeMode
 import spock.lang.Specification
-
-import java.time.LocalDateTime
-
 
 class TodoLayoutSpec extends Specification {
 

@@ -1,9 +1,12 @@
 package com.patrykkosieradzki.todo.backend.mapper;
 
+import com.patrykkosieradzki.todo.backend.dto.AuthenticatedUserDTO;
 import com.patrykkosieradzki.todo.backend.dto.UserDTO;
 import com.patrykkosieradzki.todo.backend.entity.User;
 import com.patrykkosieradzki.todo.backend.service.UserService;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -26,10 +29,16 @@ public abstract class UserMapper {
         return userService.findById(userDTO.getId());
     }
 
-    public abstract UserDTO toDto(User user);
+    @Mappings({
+            @Mapping(target = "todos", expression = "java(user.getTodos().size())"),
+    })
+    public abstract UserDTO toUserDTOs(User user);
 
-    public abstract List<UserDTO> toDto(List<User> users);
+    public abstract List<UserDTO> toUserDTOs(List<User> users);
 
-
+    @Mappings({
+            @Mapping(target = "todos", expression = "java(user.getTodos().size())")
+    })
+    public abstract AuthenticatedUserDTO toAuthenticatedUserDTO(User user);
 }
 

@@ -1,6 +1,7 @@
 package com.patrykkosieradzki.todo.backend.service;
 
 import com.patrykkosieradzki.todo.AppConstants;
+import com.patrykkosieradzki.todo.api.exception.UserNotFoundException;
 import com.patrykkosieradzki.todo.app.HasLogger;
 import com.patrykkosieradzki.todo.backend.entity.ActivationToken;
 import com.patrykkosieradzki.todo.backend.entity.User;
@@ -10,7 +11,6 @@ import com.patrykkosieradzki.todo.backend.repository.UserRepository;
 import com.patrykkosieradzki.todo.backend.service.util.FieldValueExists;
 import com.patrykkosieradzki.todo.ui.utils.ThymeleafUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -95,6 +95,6 @@ public class UserService implements FieldValueExists, HasLogger {
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username " + username + "not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 }

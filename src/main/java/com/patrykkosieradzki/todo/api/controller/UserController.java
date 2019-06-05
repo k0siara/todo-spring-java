@@ -1,6 +1,7 @@
 package com.patrykkosieradzki.todo.api.controller;
 
 import com.patrykkosieradzki.todo.app.security.CurrentUser;
+import com.patrykkosieradzki.todo.backend.dto.AuthenticatedUserDTO;
 import com.patrykkosieradzki.todo.backend.dto.UserDTO;
 import com.patrykkosieradzki.todo.backend.mapper.UserMapper;
 import com.patrykkosieradzki.todo.backend.service.UserService;
@@ -28,18 +29,23 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public UserDTO getCurrentUser() {
-        return userMapper.toDto(currentUser.getUser());
+    public AuthenticatedUserDTO getCurrentUser() {
+        return userMapper.toAuthenticatedUserDTO(currentUser.getUser());
     }
+
+//    @PatchMapping("/user")
+//    public UserDTO updateUser(@RequestBody UserDTO userDTO) {
+//
+//    }
 
     @GetMapping("/users")
     public List<UserDTO> getAllUsers() {
-        return userMapper.toDto(userService.findAll());
+        return userMapper.toUserDTOs(userService.findAll());
     }
 
-    @GetMapping("/users/{id}")
-    public UserDTO getUserById(@PathVariable Long id) {
-        return userMapper.toDto(userService.findById(id));
+    @GetMapping("/users/{username}")
+    public UserDTO getUserById(@PathVariable String username) {
+        return userMapper.toUserDTOs(userService.findByUsername(username));
     }
 
 

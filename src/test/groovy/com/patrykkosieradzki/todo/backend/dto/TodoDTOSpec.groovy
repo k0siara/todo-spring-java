@@ -16,7 +16,7 @@ class TodoDTOSpec extends Specification {
         todoDto.text == "text"
         todoDto.done
         todoDto.timestamp == now
-        todoDto.userId == 1
+        todoDto.username == 1
     }
 
 }

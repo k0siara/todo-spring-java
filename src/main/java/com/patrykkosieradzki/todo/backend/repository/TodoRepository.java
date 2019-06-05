@@ -1,5 +1,6 @@
 package com.patrykkosieradzki.todo.backend.repository;
 
+import com.patrykkosieradzki.todo.AppConstants;
 import com.patrykkosieradzki.todo.backend.entity.Todo;
 import com.patrykkosieradzki.todo.backend.entity.User;
 import org.apache.ibatis.annotations.*;
@@ -11,18 +12,31 @@ import java.util.Optional;
 public interface TodoRepository {
 
     @Select("SELECT * FROM todos WHERE id = #{id}")
+    @Results({
+            @Result(property = "user", javaType = User.class, column = "user_id",
+                    one = @One(select = AppConstants.FIND_USER_BY_ID_PATH))
+    })
     Optional<Todo> findById(Long id);
 
     @Select("SELECT * FROM todos")
+    @Results({
+            @Result(property = "user", javaType = User.class, column = "user_id",
+                    one = @One(select = AppConstants.FIND_USER_BY_ID_PATH))
+    })
     List<Todo> findAll();
 
     @Insert("INSERT INTO todos(text, user_id) " +
-            "values (#{text}, #{userId})")
+            "values (#{text}, #{user.id})")
     @SelectKey(statement = "SELECT SCOPE_IDENTITY() as id", keyProperty = "id", before = false, resultType = Long.class)
     void save(Todo todo);
 
-    @Select("SELECT * FROM todos WHERE user_id = #{userId}")
-    List<Todo> findAllByUserId(Long userId);
+    @Select("SELECT t.id, t.text, t.user_id, t.is_done, t.timestamp FROM TODOS t\n" +
+            "join users u on t.user_id = u.id WHERE u.username = #{username}")
+    @Results({
+            @Result(property = "user", javaType = User.class, column = "user_id",
+                    one = @One(select = AppConstants.FIND_USER_BY_ID_PATH))
+    })
+    List<Todo> findAllByUserUsername(String username);
 
     @Update("UPDATE todos SET text = #{text}, is_done = #{isDone}, timestamp = #{timestamp} WHERE id = #{id}")
     void update(Todo todo);
