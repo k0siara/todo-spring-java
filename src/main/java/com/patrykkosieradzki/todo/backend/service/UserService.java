@@ -11,6 +11,7 @@ import com.patrykkosieradzki.todo.backend.repository.UserRepository;
 import com.patrykkosieradzki.todo.backend.service.util.FieldValueExists;
 import com.patrykkosieradzki.todo.ui.utils.ThymeleafUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,8 +37,8 @@ public class UserService implements FieldValueExists, HasLogger {
     }
 
 
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<User> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     public User findById(Long id) {

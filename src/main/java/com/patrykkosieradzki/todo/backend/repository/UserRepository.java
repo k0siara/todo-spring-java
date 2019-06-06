@@ -4,6 +4,7 @@ import com.patrykkosieradzki.todo.AppConstants;
 import com.patrykkosieradzki.todo.backend.entity.ActivationToken;
 import com.patrykkosieradzki.todo.backend.entity.User;
 import org.apache.ibatis.annotations.*;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,8 +60,9 @@ public interface UserRepository extends MyBatisRepository<User, Long> {
     })
     Optional<User> findByActivationToken(@Param("activationToken") String activationToken);
 
-    @Override
-    @Select("SELECT * FROM users")
+    @Select("SELECT * FROM users " +
+            "where id > #{pageNumber} * #{pageSize} " +
+            "and id <= (#{pageNumber} + 1) * #{pageSize}")
     @Results(value = {
             @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
                     one = @One(select = AppConstants.FIND_ACTIVATION_TOKEN_BY_ID_PATH)),
@@ -69,7 +71,7 @@ public interface UserRepository extends MyBatisRepository<User, Long> {
             @Result(property = "id", column = "id"),
             @Result(property = "username", column = "username")
     })
-    List<User> findAll();
+    List<User> findAll(Pageable pageable);
 
     @Override
     @Insert("INSERT INTO users(first_name, last_name, username, email, password, is_expired, is_locked, " +
