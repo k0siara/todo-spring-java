@@ -43,7 +43,7 @@ public class TodoService {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or #todo.user.username == authentication.principal.username")
-    public Todo update(Todo todo) {
+    public Todo update(Todo todo, Long id) {
         todoRepository.update(todo);
         return findById(todo.getId());
     }
@@ -53,8 +53,8 @@ public class TodoService {
         todoRepository.deleteByDone(user, done);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void deleteById(Long id) {
-        todoRepository.deleteById(id);
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #todo.user.username == authentication.principal.username")
+    public void delete(Todo todo) {
+        todoRepository.deleteById(todo.getId());
     }
 }

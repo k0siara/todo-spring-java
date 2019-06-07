@@ -88,7 +88,7 @@ class TodoServiceSpec extends Specification {
 
     def "delete by id test"() {
         when:
-        todoService.deleteById(1)
+        todoService.delete(1)
 
         then:
         todoRepository.deleteById(1)

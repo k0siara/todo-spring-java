@@ -117,7 +117,7 @@ public class TodoList extends VerticalLayout implements TodoListener, TodoEditFo
         if (!SecurityUtils.isUserLoggedIn()) {
             todos.remove(todo);
         } else {
-            todoService.deleteById(todo.getId());
+            todoService.delete(todo);
         }
 
         dialog.setOpened(false);
