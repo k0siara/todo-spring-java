@@ -19,7 +19,7 @@ public class MyPageableHandlerMethodArgumentResolver extends PageableHandlerMeth
         Pageable p  = super.resolveArgument(methodParameter, mavContainer, webRequest, binderFactory);
 
         Optional<PageableDefaults> optionalPageableDefaults =
-                Optional.ofNullable(methodParameter.getParameterAnnotation(PageableDefaults.class)); //pobiera z każdego miejsca w kodzie (UserController) anotacje gdzie jest Pageable
+                Optional.ofNullable(methodParameter.getParameterAnnotation(PageableDefaults.class));
 
         if (optionalPageableDefaults.isPresent()) {
             PageableDefaults defaults = optionalPageableDefaults.get();

@@ -42,12 +42,12 @@ public class UserService implements FieldValueExists, HasLogger {
     }
 
     public User findById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found by id"));
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found by id"));
     }
 
     public User findByActivationToken(String activationToken) {
         return userRepository.findByActivationToken(activationToken)
-                .orElseThrow(() -> new RuntimeException("User not found by activationToken"));
+                .orElseThrow(() -> new UserNotFoundException("User not found by activationToken"));
     }
 
     public User register(User user) {

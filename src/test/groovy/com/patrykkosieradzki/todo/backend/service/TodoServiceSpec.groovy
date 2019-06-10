@@ -55,7 +55,7 @@ class TodoServiceSpec extends Specification {
         todoService.findAllByUserUsername(1)
 
         then:
-        1 * todoRepository.findAllByUserUsername(1)
+        1 * todoRepository.findAllByUserUsernameWithPageable(1)
     }
 
     def "update uses repository to update todo in database"() {

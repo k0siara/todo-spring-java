@@ -76,7 +76,7 @@ public class TodoList extends VerticalLayout implements TodoListener, TodoEditFo
     @Override
     public void onTodoChanged(Todo todo) {
         if (SecurityUtils.isUserLoggedIn()) {
-            todoService.update(todo);
+            todoService.update(todo, todo.getId());
         } else {
             int index = IntStream.range(0, todos.size())
                     .filter(i -> todos.get(i).getId().equals(todo.getId()))

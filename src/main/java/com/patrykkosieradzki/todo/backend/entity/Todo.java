@@ -14,7 +14,7 @@ public class Todo extends AbstractEntity {
     @NonNull
     private String text;
 
-    private boolean isDone = false;
+    private Boolean isDone = false;
     private LocalDateTime timestamp;
 
     private User user;
@@ -24,4 +24,11 @@ public class Todo extends AbstractEntity {
         this.text = text;
     }
 
+    public Boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(Boolean done) {
+        isDone = done;
+    }
 }

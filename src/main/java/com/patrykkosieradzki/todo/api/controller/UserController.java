@@ -8,10 +8,7 @@ import com.patrykkosieradzki.todo.backend.mapper.UserMapper;
 import com.patrykkosieradzki.todo.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,16 +27,6 @@ public class UserController {
         this.currentUser = currentUser;
     }
 
-    @GetMapping("/user")
-    public AuthenticatedUserDTO getCurrentUser() {
-        return userMapper.toAuthenticatedUserDTO(currentUser.getUser());
-    }
-
-//    @PatchMapping("/user")
-//    public UserDTO updateUser(@RequestBody UserDTO userDTO) {
-//
-//    }
-
     @GetMapping("/users")
     public List<UserDTO> getAllUsers(@PageableDefaults(minSize = 50, maxSize = 50, size = 50) Pageable pageable) {
         return userMapper.toUserDTOs(userService.findAll(pageable));
@@ -49,6 +36,23 @@ public class UserController {
     public UserDTO getUserById(@PathVariable String username) {
         return userMapper.toUserDTOs(userService.findByUsername(username));
     }
+
+    @GetMapping("/user")
+    public AuthenticatedUserDTO getCurrentUser() {
+        return userMapper.toAuthenticatedUserDTO(currentUser.getUser());
+    }
+
+    @PatchMapping("/users/{username}")
+    public UserDTO updateUserByUsername(@RequestBody UserDTO userDTO, @PathVariable String username) {
+        return userService.update(userMapper.toEntity(userDTO));
+    }
+
+    @PatchMapping("/user")
+    public UserDTO updateCurrentUser(@RequestBody UserDTO userDTO) {
+
+    }
+
+
 
 
 }
