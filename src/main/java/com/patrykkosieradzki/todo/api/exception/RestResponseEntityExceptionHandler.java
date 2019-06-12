@@ -10,6 +10,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -30,7 +31,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     }
 
 
-
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
@@ -40,7 +40,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
         getLogger().debug("Handling MethodArgumentNotValidException...");
 
-        return badRequest().body("chujowe");
+        return badRequest().body(new ApiError(HttpStatus.BAD_REQUEST.value(), "MethodArgumentNotValid"));
     }
 
     @Override
@@ -50,7 +50,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                                                                   WebRequest request) {
 
         getLogger().debug("Handling HttpMessageNotReadableException... {}", ex.getLocalizedMessage());
-        return badRequest().body("chujowe");
+
+        if (((ServletWebRequest) request).getRequest().getRequestURL().toString().contains("/api/authorize")) {
+            getLogger().debug("No body in /api/authorize");
+
+            return badRequest().body(new ApiError(HttpStatus.BAD_REQUEST.value(), "No username and password in body"));
+        } else {
+            return badRequest().body(new ApiError(HttpStatus.BAD_REQUEST.value(), "HttpMessageNotReadable"));
+        }
+
     }
 
     @ExceptionHandler(value = AccessDeniedException.class)

@@ -2,7 +2,9 @@ package com.patrykkosieradzki.todo.backend.service;
 
 import com.patrykkosieradzki.todo.AppConstants;
 import com.patrykkosieradzki.todo.api.exception.UserNotFoundException;
+import com.patrykkosieradzki.todo.api.exception.UsernameTakenException;
 import com.patrykkosieradzki.todo.app.HasLogger;
+import com.patrykkosieradzki.todo.backend.dto.UserDTO;
 import com.patrykkosieradzki.todo.backend.entity.ActivationToken;
 import com.patrykkosieradzki.todo.backend.entity.User;
 import com.patrykkosieradzki.todo.backend.mail.Email;
@@ -12,6 +14,7 @@ import com.patrykkosieradzki.todo.backend.service.util.FieldValueExists;
 import com.patrykkosieradzki.todo.ui.utils.ThymeleafUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -81,12 +84,40 @@ public class UserService implements FieldValueExists, HasLogger {
         emailService.sendMessage(new Email("todo.spring.java@outlook.com", user.getEmail(), AppConstants.ACTIVATION_EMAIL_SUBJECT, body, true));
     }
 
-    public void save(User user) {
+    public User save(User user) {
         userRepository.save(user);
+        return userRepository.findById(user.getId())
+                .orElseThrow(() -> new UserNotFoundException("User not found by id"));
     }
 
-    public void update(User user) {
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or #username == authentication.principal.username)")
+    public User update(UserDTO userDTO, String username) {
+        User u = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException("User not found by username"));
+
+        u.setFirstName(userDTO.getFirstName() != null ? userDTO.getFirstName() : u.getFirstName());
+        u.setLastName(userDTO.getLastName() != null ? userDTO.getLastName() : u.getLastName());
+        u.setEmail(userDTO.getEmail() != null ? userDTO.getEmail() : u.getEmail());
+
+        if (userDTO.getUsername() != null) {
+            if (fieldValueExists("username", userDTO.getUsername())) {
+                throw new UsernameTakenException("Username " + userDTO.getUsername() + " is already taken");
+            } else {
+                u.setUsername(userDTO.getUsername());
+            }
+        }
+
+        userRepository.update(u);
+        return userRepository.findById(u.getId())
+                .orElseThrow(() -> new UserNotFoundException("User not found by id"));
+    }
+
+    public User enable(User user) {
+        user.setEnabled(true);
+
         userRepository.update(user);
+        return userRepository.findById(user.getId())
+                .orElseThrow(() -> new UserNotFoundException("User not found by id"));
     }
 
     @Override

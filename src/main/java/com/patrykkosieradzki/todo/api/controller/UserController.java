@@ -34,7 +34,7 @@ public class UserController {
 
     @GetMapping("/users/{username}")
     public UserDTO getUserById(@PathVariable String username) {
-        return userMapper.toUserDTOs(userService.findByUsername(username));
+        return userMapper.toUserDTO(userService.findByUsername(username));
     }
 
     @GetMapping("/user")
@@ -44,12 +44,12 @@ public class UserController {
 
     @PatchMapping("/users/{username}")
     public UserDTO updateUserByUsername(@RequestBody UserDTO userDTO, @PathVariable String username) {
-        return userService.update(userMapper.toEntity(userDTO));
+        return userMapper.toUserDTO(userService.update(userDTO, username));
     }
 
     @PatchMapping("/user")
     public UserDTO updateCurrentUser(@RequestBody UserDTO userDTO) {
-
+        return userMapper.toUserDTO(userService.update(userDTO, currentUser.getUser().getUsername()));
     }
 
 
