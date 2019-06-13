@@ -59,8 +59,6 @@ public class TodoList extends VerticalLayout implements TodoListener, TodoEditFo
     }
 
     void addTodo(Todo todo) {
-        System.out.println("DUPA 1");
-
         if (!SecurityUtils.isUserLoggedIn()) {
             todo.setId((long) (todos.size() + 1));
             todo.setTimestamp(LocalDateTime.now());

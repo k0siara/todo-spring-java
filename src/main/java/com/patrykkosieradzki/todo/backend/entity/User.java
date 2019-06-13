@@ -7,7 +7,6 @@ import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +42,8 @@ public class User extends AbstractEntity {
     @NotEmpty(message = "Password can't be empty")
     private String password;
 
+    private List<Role> roles = new ArrayList<>();
+
     private List<Todo> todos = new ArrayList<>();
 
     private boolean isExpired;
@@ -50,8 +51,9 @@ public class User extends AbstractEntity {
     private boolean isCredentialsExpired;
     private boolean isEnabled;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
     private ActivationToken activationToken;
+
+    public boolean hasRole(String role) {
+        return roles.stream().anyMatch(r -> r.getName().equals(role));
+    }
 }

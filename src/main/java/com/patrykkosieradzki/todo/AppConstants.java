@@ -11,8 +11,6 @@ public class AppConstants {
     public static final String SWAGGER_API_INFO_TITLE = "Todo API";
     public static final String SWAGGER_API_INFO_DESCRIPTION = "REST API for Todo App";
 
-
-
     private AppConstants() {}
 
     public static final String PAGE_ROOT = "";
@@ -38,5 +36,8 @@ public class AppConstants {
 
     public static final String FIND_USER_BY_ID_PATH =
             "com.patrykkosieradzki.todo.backend.repository.UserRepository.findById";
+
+    public static final String FIND_ROLES_BY_USER_ID_PATH =
+            "com.patrykkosieradzki.todo.backend.repository.RoleRepository.findAllByUserId";
 
 }

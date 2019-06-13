@@ -37,7 +37,7 @@ class UserMapperSpec extends Specification {
         )
 
         and:
-        def userDtos = userMapper.toUserDTOs(users)
+        def userDtos = userMapper.toUserDTO(users)
 
         expect:
         for (int i = 0; i < users.size(); i++) {

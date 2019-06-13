@@ -4,6 +4,7 @@ import com.patrykkosieradzki.todo.AppConstants;
 import com.patrykkosieradzki.todo.api.exception.UserNotFoundException;
 import com.patrykkosieradzki.todo.api.exception.UsernameTakenException;
 import com.patrykkosieradzki.todo.app.HasLogger;
+import com.patrykkosieradzki.todo.app.security.annotations.IsAdminOrCurrentUser;
 import com.patrykkosieradzki.todo.backend.dto.UserDTO;
 import com.patrykkosieradzki.todo.backend.entity.ActivationToken;
 import com.patrykkosieradzki.todo.backend.entity.User;
@@ -42,6 +43,10 @@ public class UserService implements FieldValueExists, HasLogger {
 
     public List<User> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    public List<User> findAllActive(Pageable pageable) {
+        return userRepository.findAllActive(pageable);
     }
 
     public User findById(Long id) {
@@ -90,7 +95,7 @@ public class UserService implements FieldValueExists, HasLogger {
                 .orElseThrow(() -> new UserNotFoundException("User not found by id"));
     }
 
-    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or #username == authentication.principal.username)")
+    @IsAdminOrCurrentUser
     public User update(UserDTO userDTO, String username) {
         User u = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found by username"));
@@ -128,5 +133,13 @@ public class UserService implements FieldValueExists, HasLogger {
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
+    }
+
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or #user.username == authentication.principal.username)")
+    public void disable(User user) {
+        user.setEnabled(false);
+        user.setLocked(true);
+
+        userRepository.update(user);
     }
 }
