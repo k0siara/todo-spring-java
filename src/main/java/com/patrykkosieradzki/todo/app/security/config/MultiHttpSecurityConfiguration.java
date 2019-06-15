@@ -18,6 +18,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -46,15 +47,15 @@ public class MultiHttpSecurityConfiguration {
     public static class ApiSecurityConfiguration extends WebSecurityConfigurerAdapter  {
 
         private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-        private AccessDeniedHandlerImpl accessDeniedHandlerImpl;
+        private AccessDeniedHandler accessDeniedHandler;
         private JwtTokenProvider jwtTokenProvider;
 
         @Autowired
         public ApiSecurityConfiguration(RestAuthenticationEntryPoint restAuthenticationEntryPoint,
-                                        AccessDeniedHandlerImpl accessDeniedHandlerImpl,
+                                        AccessDeniedHandlerImpl accessDeniedHandler,
                                         JwtTokenProvider jwtTokenProvider) {
             this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
-            this.accessDeniedHandlerImpl = accessDeniedHandlerImpl;
+            this.accessDeniedHandler = accessDeniedHandler;
             this.jwtTokenProvider = jwtTokenProvider;
         }
 
@@ -71,7 +72,7 @@ public class MultiHttpSecurityConfiguration {
                         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                         .and()
                     .exceptionHandling()
-                        .accessDeniedHandler(accessDeniedHandlerImpl)
+                        .accessDeniedHandler(accessDeniedHandler)
                         .authenticationEntryPoint(restAuthenticationEntryPoint)
                     .and()
                         .antMatcher("/api/**")

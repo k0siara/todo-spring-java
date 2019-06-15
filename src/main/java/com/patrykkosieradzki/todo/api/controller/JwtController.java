@@ -35,7 +35,7 @@ public class JwtController {
     }
 
     @PostMapping("/api/authorize")
-    public ResponseEntity<JwtAuthenticationResponse> authorize(@RequestBody @Valid JwtAuthenticationRequest req) {
+    public ResponseEntity<Object> authorize(@RequestBody @Valid JwtAuthenticationRequest req) {
         String username = req.getUsername();
         String password = req.getPassword();
 

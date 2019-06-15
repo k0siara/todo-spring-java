@@ -62,14 +62,22 @@ public class UserController {
 
     @IsAdminOrCurrentUser
     @PatchMapping("/users/{username}")
-    public UserDTO updateUserByUsername(@RequestBody UserDTO userDTO, @PathVariable String username) {
-        return userMapper.toUserDTO(userService.update(userDTO, username));
+    public ResponseEntity<Object> updateUserByUsername(@RequestBody UserDTO userDTO, @PathVariable String username) {
+        if (currentUser.getUser().hasRole("ROLE_ADMIN")) {
+            return ok().body(userMapper.toAdminUserDTO(userService.update(userDTO, username)));
+        } else {
+            return ok().body(userMapper.toUserDTO(userService.update(userDTO, username)));
+        }
     }
 
     @IsAuthenticated
     @PatchMapping("/user")
-    public UserDTO updateCurrentUser(@RequestBody UserDTO userDTO) {
-        return userMapper.toUserDTO(userService.update(userDTO, currentUser.getUser().getUsername()));
+    public ResponseEntity<Object> updateCurrentUser(@RequestBody UserDTO userDTO) {
+        if (currentUser.getUser().hasRole("ROLE_ADMIN")) {
+            return ok().body(userMapper.toAdminUserDTO(userService.update(userDTO, currentUser.getUser().getUsername())));
+        } else {
+            return ok().body(userMapper.toUserDTO(userService.update(userDTO, currentUser.getUser().getUsername())));
+        }
     }
 
     @IsAdminOrCurrentUser

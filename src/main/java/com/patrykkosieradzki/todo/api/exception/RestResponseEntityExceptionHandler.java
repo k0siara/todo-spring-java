@@ -5,7 +5,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -61,14 +60,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     }
 
-    @ExceptionHandler(value = AccessDeniedException.class)
-    public ResponseEntity handleAccessDeniedException(Exception ex, WebRequest req) {
-        getLogger().debug("Handling AccessDeniedException... {}", ex.getLocalizedMessage());
-
-        return status(HttpStatus.UNAUTHORIZED).body(
-                new ApiError(HttpStatus.UNAUTHORIZED.value(), "Requires authentication")
-        );
-    }
+//    @ExceptionHandler(value = AccessDeniedException.class)
+//    public ResponseEntity handleAccessDeniedException(Exception ex, WebRequest req) {
+//        getLogger().debug("Handling AccessDeniedException... {}", ex.getLocalizedMessage());
+//
+//        return status(HttpStatus.UNAUTHORIZED).body(
+//                new ApiError(HttpStatus.UNAUTHORIZED.value(), "Requires authentication")
+//        );
+//    }
 
     @ExceptionHandler(value = UserNotFoundException.class)
     public ResponseEntity handleUserNotFoundException(UserNotFoundException ex, WebRequest req) {
