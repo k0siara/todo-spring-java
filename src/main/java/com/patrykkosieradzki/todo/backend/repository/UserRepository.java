@@ -10,15 +10,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Mapper
-public interface UserRepository extends MyBatisRepository<User, Long> {
+public interface UserRepository {
 
-    @Override
     @Select("SELECT * FROM users WHERE id = #{id}")
     @Results(value = {
             @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
                     one = @One(select = AppConstants.FIND_ACTIVATION_TOKEN_BY_ID_PATH)),
             @Result(property = "todos", javaType = List.class, column = "username",
                     many = @Many(select = AppConstants.FIND_TODOS_BY_USER_USERNAME)),
+            @Result(property = "roles", javaType = List.class, column = "id",
+                    many = @Many(select = AppConstants.FIND_ROLES_BY_USER_ID)),
             @Result(property = "id", column = "id"),
             @Result(property = "username", column = "username")
     })
@@ -30,6 +31,8 @@ public interface UserRepository extends MyBatisRepository<User, Long> {
                     one = @One(select = AppConstants.FIND_ACTIVATION_TOKEN_BY_ID_PATH)),
             @Result(property = "todos", javaType = List.class, column = "username",
                     many = @Many(select = AppConstants.FIND_TODOS_BY_USER_USERNAME)),
+            @Result(property = "roles", javaType = List.class, column = "id",
+                    many = @Many(select = AppConstants.FIND_ROLES_BY_USER_ID)),
             @Result(property = "id", column = "id"),
             @Result(property = "username", column = "username")
     })
@@ -41,6 +44,8 @@ public interface UserRepository extends MyBatisRepository<User, Long> {
                     one = @One(select = AppConstants.FIND_ACTIVATION_TOKEN_BY_ID_PATH)),
             @Result(property = "todos", javaType = List.class, column = "username",
                     many = @Many(select = AppConstants.FIND_TODOS_BY_USER_USERNAME)),
+            @Result(property = "roles", javaType = List.class, column = "id",
+                    many = @Many(select = AppConstants.FIND_ROLES_BY_USER_ID)),
             @Result(property = "id", column = "id"),
             @Result(property = "username", column = "username")
     })
@@ -55,6 +60,8 @@ public interface UserRepository extends MyBatisRepository<User, Long> {
                     one = @One(select = AppConstants.FIND_ACTIVATION_TOKEN_BY_ID_PATH)),
             @Result(property = "todos", javaType = List.class, column = "username",
                     many = @Many(select = AppConstants.FIND_TODOS_BY_USER_USERNAME)),
+            @Result(property = "roles", javaType = List.class, column = "id",
+                    many = @Many(select = AppConstants.FIND_ROLES_BY_USER_ID)),
             @Result(property = "id", column = "id"),
             @Result(property = "username", column = "username")
     })
@@ -68,12 +75,13 @@ public interface UserRepository extends MyBatisRepository<User, Long> {
                     one = @One(select = AppConstants.FIND_ACTIVATION_TOKEN_BY_ID_PATH)),
             @Result(property = "todos", javaType = List.class, column = "username",
                     many = @Many(select = AppConstants.FIND_TODOS_BY_USER_USERNAME)),
+            @Result(property = "roles", javaType = List.class, column = "id",
+                    many = @Many(select = AppConstants.FIND_ROLES_BY_USER_ID)),
             @Result(property = "id", column = "id"),
             @Result(property = "username", column = "username")
     })
     List<User> findAll(Pageable pageable);
 
-    @Override
     @Insert("INSERT INTO users(first_name, last_name, username, email, password, is_expired, is_locked, " +
             "is_credentials_expired, is_enabled, activation_token_id) " +
             "values (#{firstName}, #{lastName}, #{username}, #{email}, #{password}, #{isExpired}, #{isLocked}, " +

@@ -23,12 +23,4 @@ public class Todo extends AbstractEntity {
         super(id);
         this.text = text;
     }
-
-    public Boolean isDone() {
-        return isDone;
-    }
-
-    public void setDone(Boolean done) {
-        isDone = done;
-    }
 }

@@ -85,8 +85,9 @@ public class UserService implements FieldValueExists, HasLogger {
         userRepository.save(user);
     }
 
-    public void update(User user) {
+    public User update(User user) {
         userRepository.update(user);
+        return findByUsername(user.getUsername());
     }
 
     @Override
@@ -98,4 +99,5 @@ public class UserService implements FieldValueExists, HasLogger {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
+
 }

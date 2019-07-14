@@ -29,8 +29,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         );
     }
 
-
-
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
@@ -40,7 +38,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
         getLogger().debug("Handling MethodArgumentNotValidException...");
 
-        return badRequest().body("chujowe");
+        return badRequest().body("");
     }
 
     @Override
@@ -50,7 +48,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                                                                   WebRequest request) {
 
         getLogger().debug("Handling HttpMessageNotReadableException... {}", ex.getLocalizedMessage());
-        return badRequest().body("chujowe");
+        return badRequest().body("");
     }
 
     @ExceptionHandler(value = AccessDeniedException.class)

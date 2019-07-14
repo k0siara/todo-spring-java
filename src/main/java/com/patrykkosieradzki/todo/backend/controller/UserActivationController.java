@@ -21,6 +21,8 @@ public class UserActivationController {
     public String activateAccount(@RequestParam("token") String token) {
         User user = userService.findByActivationToken(token);
 
+        System.out.println(user.toString());
+
         if (user.isEnabled()) {
             return "user already active";
         } else {

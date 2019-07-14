@@ -19,7 +19,7 @@ class UserMapperSpec extends Specification {
         def user = Stub(User.class)
 
         and:
-        def userDto = userMapper.toUserDTOs(user)
+        def userDto = userMapper.toUserDTO(user)
 
         expect:
         user.firstName == userDto.firstName

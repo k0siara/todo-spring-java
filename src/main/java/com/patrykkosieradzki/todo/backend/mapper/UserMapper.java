@@ -32,7 +32,7 @@ public abstract class UserMapper {
     @Mappings({
             @Mapping(target = "todos", expression = "java(user.getTodos().size())"),
     })
-    public abstract UserDTO toUserDTOs(User user);
+    public abstract UserDTO toUserDTO(User user);
 
     public abstract List<UserDTO> toUserDTOs(List<User> users);
 

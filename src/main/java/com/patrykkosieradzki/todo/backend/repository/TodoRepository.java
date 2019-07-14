@@ -34,9 +34,7 @@ public interface TodoRepository {
 
     @Select("SELECT t.id, t.text, t.user_id, t.is_done, t.timestamp FROM TODOS t " +
             "join users u on t.user_id = u.id " +
-            "WHERE u.username = #{username} " +
-            "AND id > #{pageNumber} * #{pageSize} " +
-            "AND id <= (#{pageNumber} + 1) * #{pageSize}")
+            "WHERE u.username = #{username}")
     @Results({
             @Result(property = "user", javaType = User.class, column = "user_id",
                     one = @One(select = AppConstants.FIND_USER_BY_ID_PATH))

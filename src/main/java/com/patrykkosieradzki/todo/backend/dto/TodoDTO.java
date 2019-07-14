@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class TodoDTO extends AbstractDTO {
 
     private String text;
-    private boolean isDone;
+    private Boolean isDone;
     private LocalDateTime timestamp;
     private String user;
 }

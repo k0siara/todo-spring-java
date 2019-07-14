@@ -43,6 +43,8 @@ public class User extends AbstractEntity {
     @NotEmpty(message = "Password can't be empty")
     private String password;
 
+    private List<Role> roles = new ArrayList<>();
+
     private List<Todo> todos = new ArrayList<>();
 
     private boolean isExpired;
@@ -54,4 +56,26 @@ public class User extends AbstractEntity {
     private LocalDateTime updatedAt;
 
     private ActivationToken activationToken;
+
+    public boolean hasRole(String role) {
+        return roles.stream().anyMatch(r -> r.getName().equals(role));
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", isExpired=" + isExpired +
+                ", isLocked=" + isLocked +
+                ", isCredentialsExpired=" + isCredentialsExpired +
+                ", isEnabled=" + isEnabled +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", activationToken=" + activationToken +
+                '}';
+    }
 }

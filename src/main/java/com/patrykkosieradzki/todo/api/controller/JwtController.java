@@ -3,6 +3,7 @@ package com.patrykkosieradzki.todo.api.controller;
 import com.patrykkosieradzki.todo.api.entity.JwtAuthenticationRequest;
 import com.patrykkosieradzki.todo.api.entity.JwtAuthenticationResponse;
 import com.patrykkosieradzki.todo.app.security.jwt.JwtTokenProvider;
+import com.patrykkosieradzki.todo.backend.entity.Role;
 import com.patrykkosieradzki.todo.backend.entity.User;
 import com.patrykkosieradzki.todo.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -41,7 +43,10 @@ public class JwtController {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
         User user = userService.findByUsername(username);
-        String token = jwtTokenProvider.createToken(username, List.of("ROLE_ADMIN"));
+        String token = jwtTokenProvider.createToken(
+                username,
+                user.getRoles().stream().map(Role::getName).collect(Collectors.toList())
+        );
 
         return ok(new JwtAuthenticationResponse(username, token));
     }
