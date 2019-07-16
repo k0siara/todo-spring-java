@@ -7,7 +7,7 @@ insert into users (first_name, last_name, username, email, password, is_enabled,
             '$2a$10$y04XYBMtkSYa8qLzE.PN7OiDvtF6PBZrGyTPJRgTDhEfFngYoV.MK', true, 1, current_timestamp, current_timestamp),
 
            ('Adrian', 'Twarowski', 'atwarowski', 'adrian.twarowski@gmail.com',
-             '$2a$10$iQE13/7QBfkSjnKbOFJucu5PKMwXxjTBEOtkY2nHhMCHgW1vD0gFS', false, 2, current_timestamp, current_timestamp);
+             '$2a$10$iQE13/7QBfkSjnKbOFJucu5PKMwXxjTBEOtkY2nHhMCHgW1vD0gFS', true, 2, current_timestamp, current_timestamp);
 
 
 insert into roles (name, created_at, updated_at)

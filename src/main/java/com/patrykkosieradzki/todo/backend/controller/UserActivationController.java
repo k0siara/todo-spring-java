@@ -26,8 +26,7 @@ public class UserActivationController {
         if (user.isEnabled()) {
             return "user already active";
         } else {
-            user.setEnabled(true);
-            userService.update(user);
+            userService.enable(user);
 
             return "user activated, you can log in now";
         }

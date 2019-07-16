@@ -19,7 +19,7 @@ public interface UserRepository {
             @Result(property = "todos", javaType = List.class, column = "username",
                     many = @Many(select = AppConstants.FIND_TODOS_BY_USER_USERNAME)),
             @Result(property = "roles", javaType = List.class, column = "id",
-                    many = @Many(select = AppConstants.FIND_ROLES_BY_USER_ID)),
+                    many = @Many(select = AppConstants.FIND_ROLES_BY_USER_ID_PATH)),
             @Result(property = "id", column = "id"),
             @Result(property = "username", column = "username")
     })
@@ -32,7 +32,7 @@ public interface UserRepository {
             @Result(property = "todos", javaType = List.class, column = "username",
                     many = @Many(select = AppConstants.FIND_TODOS_BY_USER_USERNAME)),
             @Result(property = "roles", javaType = List.class, column = "id",
-                    many = @Many(select = AppConstants.FIND_ROLES_BY_USER_ID)),
+                    many = @Many(select = AppConstants.FIND_ROLES_BY_USER_ID_PATH)),
             @Result(property = "id", column = "id"),
             @Result(property = "username", column = "username")
     })
@@ -45,7 +45,7 @@ public interface UserRepository {
             @Result(property = "todos", javaType = List.class, column = "username",
                     many = @Many(select = AppConstants.FIND_TODOS_BY_USER_USERNAME)),
             @Result(property = "roles", javaType = List.class, column = "id",
-                    many = @Many(select = AppConstants.FIND_ROLES_BY_USER_ID)),
+                    many = @Many(select = AppConstants.FIND_ROLES_BY_USER_ID_PATH)),
             @Result(property = "id", column = "id"),
             @Result(property = "username", column = "username")
     })
@@ -61,7 +61,7 @@ public interface UserRepository {
             @Result(property = "todos", javaType = List.class, column = "username",
                     many = @Many(select = AppConstants.FIND_TODOS_BY_USER_USERNAME)),
             @Result(property = "roles", javaType = List.class, column = "id",
-                    many = @Many(select = AppConstants.FIND_ROLES_BY_USER_ID)),
+                    many = @Many(select = AppConstants.FIND_ROLES_BY_USER_ID_PATH)),
             @Result(property = "id", column = "id"),
             @Result(property = "username", column = "username")
     })
@@ -76,11 +76,28 @@ public interface UserRepository {
             @Result(property = "todos", javaType = List.class, column = "username",
                     many = @Many(select = AppConstants.FIND_TODOS_BY_USER_USERNAME)),
             @Result(property = "roles", javaType = List.class, column = "id",
-                    many = @Many(select = AppConstants.FIND_ROLES_BY_USER_ID)),
+                    many = @Many(select = AppConstants.FIND_ROLES_BY_USER_ID_PATH)),
             @Result(property = "id", column = "id"),
             @Result(property = "username", column = "username")
     })
     List<User> findAll(Pageable pageable);
+
+    @Select("SELECT * FROM users " +
+            "where id > #{pageNumber} * #{pageSize} " +
+            "and id <= (#{pageNumber} + 1) * #{pageSize} " +
+            "and is_enabled = true " +
+            "and is_locked = false")
+    @Results(value = {
+            @Result(property = "activationToken", javaType = ActivationToken.class, column = "activation_token_id",
+                    one = @One(select = AppConstants.FIND_ACTIVATION_TOKEN_BY_ID_PATH)),
+            @Result(property = "todos", javaType = List.class, column = "username",
+                    many = @Many(select = AppConstants.FIND_TODOS_BY_USER_USERNAME)),
+            @Result(property = "roles", javaType = List.class, column = "id",
+                    many = @Many(select = AppConstants.FIND_ROLES_BY_USER_ID_PATH)),
+            @Result(property = "id", column = "id"),
+            @Result(property = "username", column = "username")
+    })
+    List<User> findAllActive(Pageable pageable);
 
     @Insert("INSERT INTO users(first_name, last_name, username, email, password, is_expired, is_locked, " +
             "is_credentials_expired, is_enabled, activation_token_id) " +
@@ -97,5 +114,6 @@ public interface UserRepository {
 
     @Select("SELECT EXISTS(SELECT 1 FROM users WHERE ${fieldName} = #{value})")
     boolean existsByFieldName(@Param("fieldName") String fieldName, @Param("value") String value);
+
 
 }

@@ -37,7 +37,7 @@ public class AppConstants {
     public static final String FIND_USER_BY_ID_PATH =
             "com.patrykkosieradzki.todo.backend.repository.UserRepository.findById";
 
-    public static final String FIND_ROLES_BY_USER_ID =
+    public static final String FIND_ROLES_BY_USER_ID_PATH =
             "com.patrykkosieradzki.todo.backend.repository.RoleRepository.findAllByUserId";
 
 }

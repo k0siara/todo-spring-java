@@ -53,7 +53,12 @@ public class JwtTokenProvider {
 
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(getUsername(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+
+        if (userDetails.isEnabled() && userDetails.isAccountNonLocked()) {
+            return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        } else {
+            return null;
+        }
     }
 
     public String getUsername(String token) {

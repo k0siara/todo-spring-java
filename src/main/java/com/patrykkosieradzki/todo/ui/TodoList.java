@@ -59,8 +59,6 @@ public class TodoList extends VerticalLayout implements TodoListener, TodoEditFo
     }
 
     void addTodo(Todo todo) {
-        System.out.println("DUPA 1");
-
         if (!SecurityUtils.isUserLoggedIn()) {
             todo.setId((long) (todos.size() + 1));
             todo.setTimestamp(LocalDateTime.now());
@@ -76,7 +74,7 @@ public class TodoList extends VerticalLayout implements TodoListener, TodoEditFo
     @Override
     public void onTodoChanged(Todo todo) {
         if (SecurityUtils.isUserLoggedIn()) {
-            todoService.update(todo, todo.getId());
+            todoService.update(todo, todo.getId()); // TODO: 2019-07-16  
         } else {
             int index = IntStream.range(0, todos.size())
                     .filter(i -> todos.get(i).getId().equals(todo.getId()))

@@ -25,6 +25,6 @@ public class CurrentUserImpl implements CurrentUser, HasLogger {
         getLogger().debug("Currently logger in username: {}", username);
 
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User Not found by username"));
+                .orElseThrow(() -> new UserNotFoundException("Current user not found"));
     }
 }

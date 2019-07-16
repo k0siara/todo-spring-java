@@ -11,5 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Role extends AbstractEntity {
 
-    String name;
+    private String name;
+
 }

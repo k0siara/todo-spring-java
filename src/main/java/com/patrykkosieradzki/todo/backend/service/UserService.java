@@ -2,7 +2,10 @@ package com.patrykkosieradzki.todo.backend.service;
 
 import com.patrykkosieradzki.todo.AppConstants;
 import com.patrykkosieradzki.todo.api.exception.UserNotFoundException;
+import com.patrykkosieradzki.todo.api.exception.UsernameTakenException;
 import com.patrykkosieradzki.todo.app.HasLogger;
+import com.patrykkosieradzki.todo.app.security.annotations.IsAdminOrCurrentUser;
+import com.patrykkosieradzki.todo.backend.dto.UserDTO;
 import com.patrykkosieradzki.todo.backend.entity.ActivationToken;
 import com.patrykkosieradzki.todo.backend.entity.User;
 import com.patrykkosieradzki.todo.backend.mail.Email;
@@ -12,6 +15,7 @@ import com.patrykkosieradzki.todo.backend.service.util.FieldValueExists;
 import com.patrykkosieradzki.todo.ui.utils.ThymeleafUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +43,10 @@ public class UserService implements FieldValueExists, HasLogger {
 
     public List<User> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
+    }
+
+    public List<User> findAllActive(Pageable pageable) {
+        return userRepository.findAllActive(pageable);
     }
 
     public User findById(Long id) {
@@ -81,13 +89,23 @@ public class UserService implements FieldValueExists, HasLogger {
         emailService.sendMessage(new Email("todo.spring.java@outlook.com", user.getEmail(), AppConstants.ACTIVATION_EMAIL_SUBJECT, body, true));
     }
 
-    public void save(User user) {
+    public User save(User user) {
         userRepository.save(user);
+        return userRepository.findById(user.getId())
+                .orElseThrow(() -> new UserNotFoundException("User not found by id"));
     }
 
     public User update(User user) {
         userRepository.update(user);
         return findByUsername(user.getUsername());
+    }
+
+    public User enable(User user) {
+        user.setEnabled(true);
+
+        userRepository.update(user);
+        return userRepository.findById(user.getId())
+                .orElseThrow(() -> new UserNotFoundException("User not found by id"));
     }
 
     @Override
@@ -100,4 +118,11 @@ public class UserService implements FieldValueExists, HasLogger {
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
+    @PreAuthorize("isAuthenticated() and (hasRole('ROLE_ADMIN') or #user.username == authentication.principal.username)")
+    public void disable(User user) {
+        user.setEnabled(false);
+        user.setLocked(true);
+
+        userRepository.update(user);
+    }
 }

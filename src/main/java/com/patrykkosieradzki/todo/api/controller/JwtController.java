@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.ResponseEntity.ok;
@@ -36,7 +35,7 @@ public class JwtController {
     }
 
     @PostMapping("/api/authorize")
-    public ResponseEntity<JwtAuthenticationResponse> authorize(@RequestBody @Valid JwtAuthenticationRequest req) {
+    public ResponseEntity<Object> authorize(@RequestBody @Valid JwtAuthenticationRequest req) {
         String username = req.getUsername();
         String password = req.getPassword();
 

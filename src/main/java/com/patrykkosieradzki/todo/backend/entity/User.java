@@ -7,7 +7,6 @@ import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,9 +51,6 @@ public class User extends AbstractEntity {
     private boolean isCredentialsExpired;
     private boolean isEnabled;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
     private ActivationToken activationToken;
 
     public boolean hasRole(String role) {
@@ -73,8 +69,8 @@ public class User extends AbstractEntity {
                 ", isLocked=" + isLocked +
                 ", isCredentialsExpired=" + isCredentialsExpired +
                 ", isEnabled=" + isEnabled +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
+                ", createdAt=" + getCreatedAt() +
+                ", updatedAt=" + getUpdatedAt() +
                 ", activationToken=" + activationToken +
                 '}';
     }

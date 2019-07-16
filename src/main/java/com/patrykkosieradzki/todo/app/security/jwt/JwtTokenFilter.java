@@ -30,7 +30,7 @@ public class JwtTokenFilter extends GenericFilterBean implements HasLogger {
         if (token != null && jwtTokenProvider.isValid(token)) {
             Authentication auth = jwtTokenProvider.getAuthentication(token);
 
-            if (auth != null) {
+            if (auth != null && auth.isAuthenticated()) {
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }

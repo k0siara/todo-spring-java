@@ -5,11 +5,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -38,7 +38,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
         getLogger().debug("Handling MethodArgumentNotValidException...");
 
-        return badRequest().body("");
+        return badRequest().body(new ApiError(HttpStatus.BAD_REQUEST.value(), "MethodArgumentNotValid"));
     }
 
     @Override
@@ -48,17 +48,25 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                                                                   WebRequest request) {
 
         getLogger().debug("Handling HttpMessageNotReadableException... {}", ex.getLocalizedMessage());
-        return badRequest().body("");
+
+        if (((ServletWebRequest) request).getRequest().getRequestURL().toString().contains("/api/authorize")) {
+            getLogger().debug("No body in /api/authorize");
+
+            return badRequest().body(new ApiError(HttpStatus.BAD_REQUEST.value(), "No username and password in body"));
+        } else {
+            return badRequest().body(new ApiError(HttpStatus.BAD_REQUEST.value(), "HttpMessageNotReadable"));
+        }
+
     }
 
-    @ExceptionHandler(value = AccessDeniedException.class)
-    public ResponseEntity handleAccessDeniedException(Exception ex, WebRequest req) {
-        getLogger().debug("Handling AccessDeniedException... {}", ex.getLocalizedMessage());
-
-        return status(HttpStatus.UNAUTHORIZED).body(
-                new ApiError(HttpStatus.UNAUTHORIZED.value(), "Requires authentication")
-        );
-    }
+//    @ExceptionHandler(value = AccessDeniedException.class)
+//    public ResponseEntity handleAccessDeniedException(Exception ex, WebRequest req) {
+//        getLogger().debug("Handling AccessDeniedException... {}", ex.getLocalizedMessage());
+//
+//        return status(HttpStatus.UNAUTHORIZED).body(
+//                new ApiError(HttpStatus.UNAUTHORIZED.value(), "Requires authentication")
+//        );
+//    }
 
     @ExceptionHandler(value = UserNotFoundException.class)
     public ResponseEntity handleUserNotFoundException(UserNotFoundException ex, WebRequest req) {
